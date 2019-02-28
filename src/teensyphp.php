@@ -8,6 +8,7 @@ const DELETE = 'DELETE';
 const CONNECT = 'CONNECT';
 const OPTIONS = 'OPTIONS';
 const TRACE = 'TRACE';
+
 const ATOM_CONTENT = 'application/atom+xml';
 const CSS_CONTENT = 'text/css';
 const JAVASCRIPT_CONTENT = 'text/javascript';
@@ -72,4 +73,10 @@ function body(): string
 function json_in(): array
 {
     return json_decode(body(), true);
+}
+
+function redirect(string $url): string
+{
+    header('Location: ' . $url, true);
+    exit();
 }
