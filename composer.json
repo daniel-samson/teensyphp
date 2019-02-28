@@ -1,0 +1,18 @@
+{
+  "name": "teensyphp/teensyphp",
+  "description": "The minimalists web framework",
+  "type": "library",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "require": {
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    },
+    "files": [
+      "src/greetings.php"
+    ]
+  }
+}
