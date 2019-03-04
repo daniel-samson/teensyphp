@@ -64,7 +64,7 @@ location / {
 // index.php
 require_once __DIR__ . '/vendor/autoloader.php';
 
-route(method(GET), url_path('/'), function() { 
+route(method(GET), url_path(''), function() { 
     render(200, content(JSON_CONTENT, json_encode(["hello" => "world"]))); 
 });
 
