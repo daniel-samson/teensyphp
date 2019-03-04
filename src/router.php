@@ -50,7 +50,7 @@ function url_path(string $path): bool
 }
 
 /**
- * Predicate to determine the is the url path being called, and set up $_GET with the params being passed in
+ * Predicate to determine is the url path being called, and set up $_GET with the params being passed in
  * @param string $path path in this case is expecting something like /user/:id/:page
  * @return bool
  */
