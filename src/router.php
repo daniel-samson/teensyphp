@@ -44,6 +44,10 @@ function url_path(string $path): bool
         return true;
     }
 
+    if ($path[0] === '/') {
+        $path = '';
+    }
+    
     return $path === $_SERVER['QUERY_STRING'];
 }
 
@@ -68,15 +72,12 @@ function url_path_params(string $path): bool
     if ($pos !== false) {
         // starts with $path
         if (substr($path, 0, $pos) === substr($_SERVER['QUERY_STRING'], 0, $pos)) {
-
-            {
                 foreach ($query_string_parts as $part => $query_string_part) {
                     if ($path_parts[$part][0] === ':') {
                         $_GET[$path_parts[$part]] = $query_string_part;
                     }
                 }
                 return true;
-            }
         }
     }
 
