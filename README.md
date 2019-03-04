@@ -9,3 +9,4 @@ The minimalists web framework
 - Favor vanilla php over a library
 - Easy to inject or replace functionality
 
+Please see the [wiki](https://github.com/daniel-samson/teensyphp/wiki) for more information.
