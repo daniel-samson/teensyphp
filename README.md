@@ -1,4 +1,4 @@
-# Tnsy-route
+# Teensy PHP
 
 The minimalists web framework
 
@@ -61,18 +61,17 @@ location / {
 
 ```php
 <?php
-require_once __DIR__ . 'router.php';
 // index.php
+require_once __DIR__ . '/vendor/autoloader.php';
 
 route(method(GET), url_path('/'), function() { 
     render(200, content(JSON_CONTENT, json_encode(["hello" => "world"]))); 
 });
 
-route(method(GET), url_path('/admin/'), middleware(sso(), function(){
-    render(200, content(JSON_CONTENT, json_encode(["hello" => "world"])));
+route(method(GET), url_path_params('/admin/:page'), middleware(sso(), function(){
+    render(200, content(JSON_CONTENT, json_encode(["page" => $_GET['page'])));
 }));
 
 // other wise
 render(404, json_out([]));
-
 ```
