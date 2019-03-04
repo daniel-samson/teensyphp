@@ -44,8 +44,10 @@ function url_path(string $path): bool
         return true;
     }
 
-    if ($path[0] === '/') {
+    if ($path === '/') {
         $path = '';
+    } elseif ($path[0] === '/') {
+        $path = substr($path, 1);
     }
     
     return $path === $_SERVER['QUERY_STRING'];
