@@ -68,7 +68,7 @@ route(method(GET), url_path(''), function() {
     render(200, content(JSON_CONTENT, json_encode(["hello" => "world"]))); 
 });
 
-route(method(GET), url_path_params('/admin/:page'), middleware(sso(), function(){
+route(method(GET), url_path_params('/admin/:page'), middleware(sso(), function() {
     render(200, content(JSON_CONTENT, json_encode(["page" => $_GET['page'])));
 }));
 
