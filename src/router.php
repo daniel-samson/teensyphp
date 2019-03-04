@@ -1,8 +1,4 @@
 <?php
-/**
- * Router
- */
-
 /** HTTP methods */
 const GET = 'GET';
 const HEAD = 'HEAD';
