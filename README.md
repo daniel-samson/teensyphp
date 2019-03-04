@@ -69,7 +69,7 @@ route(method(GET), url_path(''), function() {
 });
 
 route(method(GET), url_path_params('/admin/:page'), middleware(sso(), function() {
-    render(200, content(JSON_CONTENT, json_encode(["page" => $_GET['page'])));
+    render(200, json_out(["page" => $_GET['page']));
 }));
 
 // other wise
