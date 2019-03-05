@@ -16,7 +16,8 @@
       "src/router.php",
       "src/request.php",
       "src/response.php",
-      "src/middleware.php"
+      "src/middleware.php",
+      "src/template.php"
     ]
   },
   "require-dev": {

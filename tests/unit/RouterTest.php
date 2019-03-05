@@ -44,4 +44,11 @@ class RouterTest extends \Codeception\Test\Unit
         $this->assertTrue(url_path_params('/:id'));
         $this->assertFalse(url_path_params('/1'));
     }
+
+    public function test_template()
+    {
+        $actual = template(codecept_data_dir().'/template.php', ['test' => 'hello']);
+        $expected = '<h1>hello</h1>';
+        $this->assertEquals($expected, $actual);
+    }
 }
