@@ -42,7 +42,7 @@ function url_path(string $path): bool
 
     if ($path === '/') {
         $path = '';
-    } elseif ($path[0] === '/') {
+    } elseif (!empty($path) && $path[0] === '/') {
         $path = substr($path, 1);
     }
     
