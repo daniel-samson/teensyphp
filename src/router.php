@@ -9,16 +9,6 @@ const CONNECT = 'CONNECT';
 const OPTIONS = 'OPTIONS';
 const TRACE = 'TRACE';
 
-/** Content Types */
-const ATOM_CONTENT = 'application/atom+xml';
-const CSS_CONTENT = 'text/css';
-const JAVASCRIPT_CONTENT = 'text/javascript';
-const JSON_CONTENT = 'application/json';
-const PDF_CONTENT = 'application/pdf';
-const TEXT_CONTENT = 'text/plain';
-const XML_CONTENT = 'text/xml';
-
-
 /**
  * Predicate to determine is the http method in effect
  * @param string $method

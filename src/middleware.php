@@ -2,7 +2,7 @@
 
 /**
  * Call middleware
- * @param mixed ...$features
+ * @param callable ...$features
  * @return Closure
  */
 function middleware(callable ...$features): callable

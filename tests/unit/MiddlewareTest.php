@@ -19,12 +19,12 @@ class MiddlewareTest extends \Codeception\Test\Unit
     {
         $actual = middleware(
             function() {
-                sleep(1);
-                $_GET['test_middleware_1'] = time();
+                usleep(100);
+                $_GET['test_middleware_1'] = microtime(true);
             },
             function() {
-                sleep(1);
-                $_GET['test_middleware_2'] = time();
+                usleep(100);
+                $_GET['test_middleware_2'] = microtime(true);
             }
         );
 
