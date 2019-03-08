@@ -24,7 +24,7 @@ class RouterTest extends \Codeception\Test\Unit
 
     public function test_url_path()
     {
-        $_SERVER['QUERY_STRING'] = '';
+        $_GET['url'] = '';
         $actual = url_path('');
         $this->assertTrue($actual);
 
@@ -34,7 +34,7 @@ class RouterTest extends \Codeception\Test\Unit
         $actual = url_path('*');
         $this->assertTrue($actual);
 
-        $_SERVER['QUERY_STRING'] = 'hello';
+        $_GET['url'] = 'hello';
         $actual = url_path('/hello');
         $this->assertTrue($actual);
     }
@@ -42,13 +42,13 @@ class RouterTest extends \Codeception\Test\Unit
     // tests
     public function test_url_path_params()
     {
-        $_SERVER['QUERY_STRING'] = 'user/1';
+        $_GET['url'] = 'user/1';
         $this->assertTrue(url_path_params('/user/:id'));
         $this->assertArrayHasKey(':id', $_GET);
         $this->assertEquals(1, $_GET[':id']);
         $this->assertFalse(url_path_params('/user/:id/:page'));
 
-        $_SERVER['QUERY_STRING'] = '1';
+        $_GET['url'] = '1';
         $this->assertTrue(url_path_params('/:id'));
         $this->assertFalse(url_path_params('/1'));
     }

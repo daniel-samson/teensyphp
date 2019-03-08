@@ -36,7 +36,7 @@ function url_path(string $path): bool
         $path = substr($path, 1);
     }
     
-    return $path === $_SERVER['QUERY_STRING'];
+    return $path === $_GET['url'];
 }
 
 /**
@@ -50,7 +50,7 @@ function url_path_params(string $path): bool
         $path = substr($path, 1);
     }
 
-    $query_string_parts = explode('/', $_SERVER['QUERY_STRING']);
+    $query_string_parts = explode('/', $_GET['url']);
     $path_parts = explode('/', $path);
     if (count($query_string_parts) !== count($path_parts)) {
         return false;
@@ -59,7 +59,7 @@ function url_path_params(string $path): bool
     $pos = strpos($path, ':');
     if ($pos !== false) {
         // starts with $path
-        if (substr($path, 0, $pos) === substr($_SERVER['QUERY_STRING'], 0, $pos)) {
+        if (substr($path, 0, $pos) === substr($_GET['url'], 0, $pos)) {
                 foreach ($query_string_parts as $part => $query_string_part) {
                     if ($path_parts[$part][0] === ':') {
                         $_GET[$path_parts[$part]] = $query_string_part;
