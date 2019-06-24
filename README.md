@@ -3,8 +3,10 @@
 A minimalistic web framework for rapidly creating JSON APIs and web applications. Teensy PHP attempts to use composition with functions instead of classes.
 
 ## Features
-- Type hinting
-- Easy to inject or replace functionality (its just functions)
+- Router
+- Templating in php
+- Middlewhere
+- Easy to inject or replace functionality (its just some small functions)
 
 
 ## Example
