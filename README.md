@@ -1,6 +1,6 @@
 # Teensy PHP
 
-A minimalistic web framework for those who prefer the procedural PHP style over the object oriented style. Teensy PHP is an attempt to use composition with functions instead of classes. With less than 100 Logical Lines of Code, you can rapidly create JSON APIs and web applications.
+A minimalistic web framework for rapidly creating JSON APIs and web applications. Teensy PHP attempts to use composition with functions instead of classes.
 
 ## Features
 - Type hinting
