@@ -21,6 +21,6 @@
     ]
   },
   "require-dev": {
-    "codeception/codeception": "2.6.x-dev"
+    "codeception/codeception": "3.0.2"
   }
 }
