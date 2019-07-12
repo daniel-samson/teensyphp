@@ -8,6 +8,8 @@ A minimalistic web framework for rapidly creating JSON APIs and web applications
 - Middlewhere Support
 - Easy to inject or replace functionality (its just some small functions)
 
+Please see the [wiki](https://github.com/daniel-samson/teensyphp/wiki) for more information.
+
 
 ## Example
 ```php
@@ -48,5 +50,3 @@ try {
 }
  
 ```
-
-Please see the [wiki](https://github.com/daniel-samson/teensyphp/wiki) for more information.
