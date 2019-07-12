@@ -1,4 +1,6 @@
 # Teensy PHP
+[![Build Status](https://travis-ci.org/daniel-samson/teensyphp.svg?branch=master)](https://travis-ci.org/daniel-samson/teensyphp)
+[![codecov](https://codecov.io/gh/daniel-samson/teensyphp/branch/master/graph/badge.svg)](https://codecov.io/gh/daniel-samson/teensyphp)
 
 A minimalistic web framework for rapidly creating JSON APIs and web applications, written with the fewest lines of code.
 
