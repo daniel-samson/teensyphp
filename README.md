@@ -1,6 +1,6 @@
 # Teensy PHP
 
-A minimalistic web framework for rapidly creating JSON APIs and web applications, written with the 50 ines of code.
+A minimalistic web framework for rapidly creating JSON APIs and web applications, written with the 50 lines of code.
 
 [![Build Status](https://travis-ci.org/daniel-samson/teensyphp.svg?branch=master)](https://travis-ci.org/daniel-samson/teensyphp)
 [![codecov](https://codecov.io/gh/daniel-samson/teensyphp/branch/master/graph/badge.svg)](https://codecov.io/gh/daniel-samson/teensyphp)
