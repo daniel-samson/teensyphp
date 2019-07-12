@@ -1,6 +1,6 @@
 # Teensy PHP
 
-A minimalistic web framework for rapidly creating JSON APIs and web applications written with the fewest lines of code.
+A minimalistic web framework for rapidly creating JSON APIs and web applications, written with the fewest lines of code.
 
 ## Features
 - Simple Router
