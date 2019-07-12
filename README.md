@@ -3,8 +3,8 @@
 A minimalistic web framework for rapidly creating JSON APIs and web applications written with the fewest lines of code.
 
 ## Features
-- Router
-- Php Templating Engine
+- Simple Router
+- PHP Templating Engine
 - Middlewhere Support
 - Easy to inject or replace functionality (its just some small functions)
 
