@@ -11,19 +11,38 @@ A minimalistic web framework for rapidly creating JSON APIs and web applications
 
 ## Example
 ```php
-route(method(GET), url_path("/"), function() {
-    render(200, json_out(["hello" => "world"]));
-});
+// index.php
+<?php
+require_once __DIR__ . '/vendor/autoload.php';
+display_errors(false);
+error_reporting(E_ALL);
 
-route(method(POST), url_path("/authenticate"), function() {
-    $body = json_in();
-    if (Foo::authenticate($body['username'], $body['password'])) {
-        render(200, json_out([]));
-    }
-    
-    render(400, json_out(["status" => "bad request"]));
-});
+try {
+    // home / landing page
+    route(method(GET), url_path("/"), function () {
+        render(200, json_out(['hello' => 'world']));
+    });
 
+    route(method(POST), url_path("/authenticate"), function() {
+        $body = json_in();
+        if (Foo::authenticate($body['username'], $body['password'])) {
+            render(200, json_out([]));
+        }
+
+        render(400, json_out(["status" => "bad request"]));
+    });
+
+    // route not found
+    render(404, json_out(['error' => 'not found']));
+} catch (Exception $e) {
+    error_log($e->getMessage());
+    error_log($e->getTraceAsString());
+    render(500, json_out(['error' => 'internal server error']));
+} catch (Error $e) {
+    error_log($e->getMessage());
+    error_log($e->getTraceAsString());
+    render(500, json_out(['error' => 'internal server error'])));
+}
  
 ```
 
