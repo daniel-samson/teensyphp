@@ -9,6 +9,11 @@ function request_header(string $header): string
     return "";
 }
 
+function accept(string $content_type): bool
+{
+    return strpos(request_header('Accept'), $content_type) !== false;
+}
+
 function request_body(): string
 {
     return file_get_contents("php://input");
