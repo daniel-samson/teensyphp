@@ -31,7 +31,7 @@ try {
 
     route(method(POST), url_path("/authenticate"), function() {
         $body = json_in();
-        if (Foo::authenticate($body['username'], $body['password'])) {
+        if (OAuth2::authenticate($body['username'], $body['password'])) {
             render(200, json_out(["access_token"=> Foo::accessToken(),
                 "token_type"=> "bearer",
                 "expires_in"=> 3600,
@@ -41,7 +41,7 @@ try {
         render(400, json_out(["status" => "bad request"]));
     });
 
-    route(method(GET), url_path("/dashboard"), middleware(authorization, function() {
+    route(method(GET), url_path("/dashboard"), middleware(OAuth2::authorize, function() {
         $user = User::fromToken(request_header('Authorization'));
         $dashboard = new DashboardComponent();
         json_out(200, template(__DIR__.'/components/dashboard/templates/json_dashboards.php',  $dashboard->forUser($user)));
