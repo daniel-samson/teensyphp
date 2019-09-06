@@ -31,8 +31,8 @@ try {
 
     route(method(POST), url_path("/authenticate"), function() {
         $body = json_in();
-        if (OAuth2::authenticate($body['username'], $body['password'])) {
-            render(200, json_out(["access_token"=> Foo::accessToken(),
+        if ($access_token = OAuth2::authenticate($body['username'], $body['password'])) {
+            render(200, json_out(["access_token"=> $access_token,
                 "token_type"=> "bearer",
                 "expires_in"=> 3600,
                 "scope"=> "create"]));
