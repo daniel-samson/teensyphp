@@ -41,6 +41,11 @@ try {
         render(400, json_out(["status" => "bad request"]));
     });
 
+    route(method(GET), url_path("/dashboard"), middleware(authorization, function() {
+        $user = User::fromToken(request_header('Authorization'));
+        $dashboard = new DashboardComponent();
+        json_out(200, template(__DIR__.'/components/dashboard/templates/json_dashboards.php',  $dashboard->forUser($user)));
+    }));
     // route not found
     render(404, json_out(['error' => 'not found']));
 } catch (Exception $e) {
