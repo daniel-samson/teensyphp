@@ -28,7 +28,9 @@ try {
     route(method(GET), url_path("/"), function () {
         render(200, json_out(['status' => 'up']));
     });
-
+    
+    // Add your endpoints / routes here ...
+    
     // route not found
     render(404, json_out(['error' => 'not found']));
 } catch (Exception $e) {
