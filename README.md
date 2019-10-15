@@ -26,7 +26,7 @@ error_reporting(E_ALL);
 try {
     // home / landing page
     route(method(GET), url_path("/"), function () {
-        render(200, json_out(['hello' => 'world']));
+        render(200, json_out(['status' => 'up']));
     });
 
     // route not found
