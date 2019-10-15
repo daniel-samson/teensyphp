@@ -29,35 +29,16 @@ try {
         render(200, json_out(['hello' => 'world']));
     });
 
-    route(method(POST), url_path("/authenticate"), function() {
-        $body = json_in();
-        if ($access_token = OAuth2::authenticate($body['username'], $body['password'])) {
-            render(200, json_out([
-                "access_token" => $access_token,
-                "token_type" => "bearer",
-                "expires_in" => 3600,
-                "scope" => "create"
-                ]));
-        }
-
-        render(400, json_out(["status" => "bad request"]));
-    });
-
-    route(method(GET), url_path("/dashboard"), middleware(OAuth2::authorize, function() {
-        $user = User::fromToken(request_header('Authorization'));
-        $dashboard = new DashboardComponent();
-        json_out(200, template(__DIR__.'/components/dashboard/templates/json_dashboards.php',  $dashboard->forUser($user)));
-    }));
     // route not found
     render(404, json_out(['error' => 'not found']));
 } catch (Exception $e) {
     error_log($e->getMessage());
     error_log($e->getTraceAsString());
-    render($e->getCode(), json_out(['error' => 'internal server error']));
+    render($e->getCode(), json_out(['error' => $e->getMessage()]));
 } catch (Error $e) {
     error_log($e->getMessage());
     error_log($e->getTraceAsString());
-    render($e->getCode(), json_out(['error' => 'internal server error'])));
+    render($e->getCode(), json_out(['error' => $e->getMessage()])));
 }
  
 ```
