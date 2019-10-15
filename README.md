@@ -5,14 +5,14 @@ A minimalistic web framework for rapidly creating JSON APIs and microservices, w
 [![Build Status](https://travis-ci.org/daniel-samson/teensyphp.svg?branch=master)](https://travis-ci.org/daniel-samson/teensyphp)
 [![codecov](https://codecov.io/gh/daniel-samson/teensyphp/branch/master/graph/badge.svg)](https://codecov.io/gh/daniel-samson/teensyphp)
 
+Please see the [wiki](https://github.com/daniel-samson/teensyphp/wiki) for more information.
+
 
 ## Features
 - Simple Router
 - PHP Templating Engine
 - Middlewhere Support
 - Easy to inject or replace functionality (its just some small functions)
-
-Please see the [wiki](https://github.com/daniel-samson/teensyphp/wiki) for more information.
 
 
 ## Example
