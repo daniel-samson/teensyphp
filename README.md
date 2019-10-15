@@ -53,11 +53,11 @@ try {
 } catch (Exception $e) {
     error_log($e->getMessage());
     error_log($e->getTraceAsString());
-    render(500, json_out(['error' => 'internal server error']));
+    render($e->getCode(), json_out(['error' => 'internal server error']));
 } catch (Error $e) {
     error_log($e->getMessage());
     error_log($e->getTraceAsString());
-    render(500, json_out(['error' => 'internal server error'])));
+    render($e->getCode(), json_out(['error' => 'internal server error'])));
 }
  
 ```
