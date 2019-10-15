@@ -1,6 +1,6 @@
 # Teensy PHP
 
-Written with 50 lines of code(LLOC), Teesy PHP is a minimalistic web framework for rapidly creating JSON APIs and microservices. Please see the [wiki](https://github.com/daniel-samson/teensyphp/wiki) for more information.
+Written with few lines of code(LLOC), Teesy PHP is a minimalistic web framework for rapidly creating JSON APIs and microservices. Unlike other mininal frameworks, TeensyPHP is implemented in a functional style. Please see the [wiki](https://github.com/daniel-samson/teensyphp/wiki) for more information.
 
 [![Build Status](https://travis-ci.org/daniel-samson/teensyphp.svg?branch=master)](https://travis-ci.org/daniel-samson/teensyphp)
 [![codecov](https://codecov.io/gh/daniel-samson/teensyphp/branch/master/graph/badge.svg)](https://codecov.io/gh/daniel-samson/teensyphp)
