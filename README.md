@@ -40,7 +40,7 @@ try {
 } catch (Error $e) {
     error_log($e->getMessage());
     error_log($e->getTraceAsString());
-    render($e->getCode(), json_out(['error' => $e->getMessage()])));
+    render($e->getCode(), json_out(['error' => $e->getMessage()]));
 }
  
 ```
