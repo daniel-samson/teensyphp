@@ -20,7 +20,7 @@ Teesy PHP is a minimalistic web framework for rapidly creating JSON APIs and mic
 // index.php
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
-display_errors(false);
+ini_set('display_errors', 'Off');
 error_reporting(E_ALL);
 
 try {
