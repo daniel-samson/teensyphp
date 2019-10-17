@@ -36,7 +36,7 @@ function url_path(string $path): bool
         $path = substr($path, 1);
     }
     
-    return $path == $_GET['url'];
+    return $path === $_GET['url'];
 }
 
 /**
