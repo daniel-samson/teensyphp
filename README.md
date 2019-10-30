@@ -14,6 +14,11 @@ Teesy PHP is a minimalistic web framework for rapidly creating JSON APIs and mic
 - Middlewhere Support
 - Easy to inject or replace functionality (its just some small functions)
 
+## Requirements
+- PHP 7.2+
+- Web server with friendly url capability ( apache2, NGINX )
+- composer
+
 
 ## Example
 ```php
