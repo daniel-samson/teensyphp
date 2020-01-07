@@ -77,7 +77,7 @@ function url_path_params(string $path): bool
  * @param callable $routes - function that includes routes
  * @return void
  */
-function router(callable $routes())
+function router(callable $routes)
 {
     ini_set('display_errors', 'Off');
     error_reporting(E_ALL);
