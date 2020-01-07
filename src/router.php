@@ -73,6 +73,29 @@ function url_path_params(string $path): bool
 }
 
 /**
+ * runs routes
+ * @param callable $routes - function that includes routes
+ * @return void
+ */
+function router(callable $routes())
+{
+    ini_set('display_errors', 'Off');
+    error_reporting(E_ALL);
+
+    try {
+       routes(); 
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+        error_log($e->getTraceAsString());
+        render($e->getCode(), json_out(['error' => $e->getMessage()]));
+    } catch (Error $e) {
+        error_log($e->getMessage());
+        error_log($e->getTraceAsString());
+        render($e->getCode(), json_out(['error' => $e->getMessage()]));
+    }
+}
+
+/**
  * Calls an action when the http method and path match the request before closing the connection
  * @param bool $http_method_predicate
  * @param bool $path_predicate
