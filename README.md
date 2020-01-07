@@ -36,5 +36,5 @@ router(function() {
     
     // route not found
     render(404, json_out(['error' => 'not found']));
-}
+});
 ```
