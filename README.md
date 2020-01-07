@@ -25,10 +25,8 @@ Teensy PHP is a minimalistic web framework for rapidly creating JSON APIs and mi
 // index.php
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
-ini_set('display_errors', 'Off');
-error_reporting(E_ALL);
 
-try {
+router(function() {
     // home / landing page
     route(method(GET), url_path("/"), function () {
         render(200, json_out(['status' => 'up']));
@@ -38,14 +36,5 @@ try {
     
     // route not found
     render(404, json_out(['error' => 'not found']));
-} catch (Exception $e) {
-    error_log($e->getMessage());
-    error_log($e->getTraceAsString());
-    render($e->getCode(), json_out(['error' => $e->getMessage()]));
-} catch (Error $e) {
-    error_log($e->getMessage());
-    error_log($e->getTraceAsString());
-    render($e->getCode(), json_out(['error' => $e->getMessage()]));
 }
- 
 ```
