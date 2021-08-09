@@ -7,9 +7,17 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
+  run:
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        php-versions: ['7.2', '7.3', '7.4', '8.0']
+        phpunit-versions: ['latest']
+        include:
+        - operating-system: 'ubuntu-latest'
+          php-versions: '7.2'
+          phpunit-versions: '8.5.13' 
 
     steps:
     - uses: actions/checkout@v2
@@ -32,5 +40,5 @@ jobs:
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
-    # - name: Run test suite
-    #   run: composer run-script test
+    - name: Run test suite
+      run: ./vendor/bin/codecept run unit -f --steps -v -d --coverage-xml; bash <(curl -s https://codecov.io/bash) -f tests/_output/coverage.xml;
