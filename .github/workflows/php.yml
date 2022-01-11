@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  run:
+  test:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
@@ -42,3 +42,33 @@ jobs:
 
     - name: Run test suite
       run: composer test
+coverage:
+  name: Build & Test
+  needs: test
+  runs-on: ubuntu-latest
+    strategy:
+      matrix:
+       operating-system: ['ubuntu-latest']
+        php-versions: ['8.1']
+        phpunit-versions: ['latest']
+  steps:
+    - uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+    - name: Coverage
+      run:  vendor/bin/phpunit --coverage-clover coverage.xml --stderr tests
+    - name: CodeCov
+      run: bash <(curl -s https://codecov.io/bash)
