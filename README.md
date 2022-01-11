@@ -18,8 +18,8 @@ Teensy PHP is a minimalistic web framework for rapidly creating JSON APIs and mi
 
 ## Requirements
 - PHP 7.2+
-- Web server with friendly url capability ( apache2, NGINX )
-- composer
+- Web server with friendly url capability eg. Apache, NGINX, ect...
+- Composer
 
 
 ## Example
