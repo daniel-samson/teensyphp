@@ -1,6 +1,6 @@
 # Teensy PHP
 
-Teensy PHP is a minimalistic web framework for rapidly creating JSON APIs and microservices which are written in a functional style.
+Teensy PHP is a minimalistic web framework for rapidly creating JSON APIs.
 
 ## Project Status
 [![Build](https://github.com/daniel-samson/teensyphp/actions/workflows/php.yml/badge.svg)](https://github.com/daniel-samson/teensyphp/actions/workflows/php.yml)
