@@ -10,6 +10,7 @@ Teensy PHP is a minimalistic web framework for rapidly creating JSON APIs and mi
 
 
 ## Features
+- Lightweight Framework
 - Simple Router
 - PHP Templating Engine
 - Middlewhere Support
