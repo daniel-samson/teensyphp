@@ -4,7 +4,7 @@ Teensy PHP is a minimalistic web framework for rapidly creating JSON APIs and mi
 
 ## Project Status
 [![CI](https://travis-ci.org/daniel-samson/teensyphp.svg?branch=master)](https://travis-ci.org/daniel-samson/teensyphp)
-[![PHP Composer](https://github.com/daniel-samson/teensyphp/actions/workflows/php.yml/badge.svg?branch=master)](https://github.com/daniel-samson/teensyphp/actions/workflows/php.yml)
+[![PHP Composer](https://github.com/daniel-samson/teensyphp/actions/workflows/php.yml/badge.svg)](https://github.com/daniel-samson/teensyphp/actions/workflows/php.yml)
 [![codecov](https://codecov.io/gh/daniel-samson/teensyphp/branch/master/graph/badge.svg)](https://codecov.io/gh/daniel-samson/teensyphp)
 
 
