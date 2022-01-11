@@ -29,7 +29,7 @@ Teensy PHP is a minimal web framework for rapidly creating JSON APIs.
 require_once __DIR__ . '/vendor/autoload.php';
 
 router(function() {
-    // home / landing page
+    // healthcheck
     route(method(GET), url_path("/"), function () {
         render(200, json_out(['status' => 'up']));
     });
