@@ -46,14 +46,12 @@ jobs:
     name: Code Coverage
     needs: test
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        operating-system: ['ubuntu-latest']
-        php-versions: ['8.1']
-        phpunit-versions: ['latest']
     steps:
       - uses: actions/checkout@v2
-
+      - name: Setup PHP with Xdebug 2.x
+        uses: shivammathur/setup-php@v2
+        with:
+          coverage: xdebug
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
 
