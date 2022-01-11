@@ -43,6 +43,10 @@ router(function() {
         render(201, json_out($body));
     })
 
+    route(method(GET), url_path_params("/error"), function () {
+        thow new \Error("Service Unavailable", 503);
+    })
+
     // route not found
     render(404, json_out(['error' => 'not found']));
 });
