@@ -43,7 +43,7 @@ jobs:
     - name: Run test suite
       run: composer test
   coverage:
-    name: Build & Test
+    name: Code Coverage
     needs: test
     runs-on: ubuntu-latest
     strategy:
