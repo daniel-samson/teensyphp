@@ -44,7 +44,7 @@ router(function() {
     })
 
     route(method(GET), url_path_params("/error"), function () {
-        thow new \Error("Service Unavailable", 503);
+        throw new \Error("Service Unavailable", 503);
     })
 
     // route not found
