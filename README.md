@@ -48,5 +48,11 @@ router(function() {
 });
 ```
 
+## Installation
+
+```bash
+composer require daniel-samson/teensyphp
+``` 
+
 ## Documentation
 Please see the [wiki](https://github.com/daniel-samson/teensyphp/wiki) for more information.
