@@ -1,20 +1,8 @@
 <?php
+use PHPUnit\Framework\TestCase;
 
-class RouterTest extends \Codeception\Test\Unit
+class RouterTest extends TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
     public function test_method()
     {
         $_SERVER['REQUEST_METHOD'] = PUT;
@@ -39,7 +27,6 @@ class RouterTest extends \Codeception\Test\Unit
         $this->assertTrue($actual);
     }
 
-    // tests
     public function test_url_path_params()
     {
         $_GET['url'] = 'user/1';
@@ -55,7 +42,7 @@ class RouterTest extends \Codeception\Test\Unit
 
     public function test_template()
     {
-        $actual = template(codecept_data_dir().'/template.php', ['test' => 'hello']);
+        $actual = template(__DIR__.'/_data/template.php', ['test' => 'hello']);
         $expected = '<h1>hello</h1>';
         $this->assertEquals($expected, $actual);
     }

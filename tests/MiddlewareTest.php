@@ -1,20 +1,8 @@
 <?php
+use PHPUnit\Framework\TestCase;
 
-class MiddlewareTest extends \Codeception\Test\Unit
+class MiddlewareTest extends TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
     public function test_middleware()
     {
         $actual = middleware(

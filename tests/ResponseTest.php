@@ -1,20 +1,8 @@
 <?php
+use PHPUnit\Framework\TestCase;
 
-class ResponseTest extends \Codeception\Test\Unit
+class ResponseTest extends TestCase
 {
-    /**
-     * @var \UnitTester
-     */
-    protected $tester;
-
-    protected function _before()
-    {
-    }
-
-    protected function _after()
-    {
-    }
-
     public function test_json_out()
     {
         $actual = json_out(['hello'=>'world']);
