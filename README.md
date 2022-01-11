@@ -43,5 +43,5 @@ router(function() {
 });
 ```
 
-## Getting Started
+## Documentation
 Please see the [wiki](https://github.com/daniel-samson/teensyphp/wiki) for more information.
