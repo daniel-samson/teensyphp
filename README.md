@@ -42,6 +42,7 @@ router(function() {
         $body = json_in();
         render(201, json_out($body));
     })
+
     // route not found
     render(404, json_out(['error' => 'not found']));
 });
