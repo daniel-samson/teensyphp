@@ -34,6 +34,9 @@ router(function() {
     });
     
     // Add your endpoints / routes here ...
+    route(method(GET), url_path_params("/hello/:name"), function () {
+        render(200, json_out(['hello' => $_GET[':name']]));
+    })
     
     // route not found
     render(404, json_out(['error' => 'not found']));
