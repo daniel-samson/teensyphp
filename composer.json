@@ -21,6 +21,7 @@
     "phpunit/phpunit": "^9"
   },
   "scripts": {
-    "test": "./vendor/bin/phpunit --bootstrap vendor/autoload.php --stderr tests"
+    "test": "./vendor/bin/phpunit --bootstrap vendor/autoload.php --stderr tests",
+    "coverage": "./vendor/bin/phpunit --bootstrap vendor/autoload.php --coverage-text --stderr -- tests"
   }
 }
