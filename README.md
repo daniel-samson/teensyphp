@@ -38,6 +38,10 @@ router(function() {
         render(200, json_out(['hello' => $_GET[':name']]));
     })
     
+    route(method(POST), url_path_params("/hello"), function () {
+        $body = json_in();
+        render(201, json_out($body));
+    })
     // route not found
     render(404, json_out(['error' => 'not found']));
 });
