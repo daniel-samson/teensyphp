@@ -16,11 +16,6 @@ Teensy PHP is a minimal web framework for rapidly creating REST APIs.
 - Middleware Support
 - Easy to inject or replace functionality (its just some small functions)
 
-## Requirements
-- PHP 7.2+
-- Web server with friendly url capability eg. Apache, NGINX, ect...
-- Composer
-
 
 ## Example
 ```php
@@ -49,6 +44,10 @@ router(function() {
     throw new \Error("Not Found", 404);
 });
 ```
+## Requirements
+- PHP 7.2+
+- Web server with friendly url capability eg. Apache, NGINX, ect...
+- Composer
 
 ## Installation
 
