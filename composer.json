@@ -10,6 +10,7 @@
   },
   "autoload": {
     "files": [
+      "src/stop.php",
       "src/router.php",
       "src/request.php",
       "src/response.php",

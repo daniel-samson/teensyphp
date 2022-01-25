@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__."/stop.php";
+
 /** HTTP methods */
 const GET = 'GET';
 const HEAD = 'HEAD';
@@ -108,18 +110,18 @@ function route(bool $http_method_predicate, bool $path_predicate, callable $acti
     }
 
     call_user_func_array($action, array());
-    exit();
+    stop();
 }
 
 /**
  * redirect client to url
  * @param string $url
- * @return string
+ * @return void
  */
-function redirect(string $url): string
+function redirect(string $url): void
 {
     header('Location: ' . $url, true);
-    exit();
+    stop();
 }
 
 /**

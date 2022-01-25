@@ -14,4 +14,11 @@ class ResponseTest extends TestCase
         $actual = html_out('<h1>a</h1>');
         $this->assertEquals('<h1>a</h1>', $actual);
     }
+
+    public function test_render()
+    {
+        $expected = '{}';
+        render(200, $expected);
+        $this->expectOutputString($expected);
+    }
 }
