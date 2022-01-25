@@ -83,7 +83,7 @@ function router(callable $routes)
     error_reporting(E_ALL);
 
     try {
-       routes(); 
+       call_user_func($routes);
     } catch (Exception $e) {
         error_log($e->getMessage());
         error_log($e->getTraceAsString());
