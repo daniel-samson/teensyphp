@@ -121,3 +121,17 @@ function redirect(string $url): string
     header('Location: ' . $url, true);
     exit();
 }
+
+/**
+ * uses request url path instead of url query parameter
+ * @return void
+ */
+function use_request_url(): void
+{
+    $url = $_SERVER['REQUEST_URI'];
+    if ($url = '/') {
+        $url = '';
+    }
+
+    $_GET['url'] = $url;
+}
