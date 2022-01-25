@@ -25,7 +25,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 router(function() {
     // uncomment when using laravel valet:
-    // use_request_url();
+    // use_request_uri();
     //
     // healthcheck
     route(method(GET), url_path("/"), function () {
