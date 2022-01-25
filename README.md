@@ -49,7 +49,6 @@ router(function() {
 ```
 ## Requirements
 - PHP 7.2+
-- Web server with friendly url capability eg. Apache, NGINX, ect...
 - Composer
 
 ## Installation
