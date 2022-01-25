@@ -32,13 +32,13 @@ router(function() {
     // Example url parameter
     route(method(GET), url_path_params("/hello/:name"), function () {
         render(200, json_out(['hello' => $_GET[':name']]));
-    })
+    });
     
     // Example JSON body
     route(method(POST), url_path("/hello"), function () {
         $body = json_in();
         render(201, json_out($body));
-    })
+    });
 
     // route not found
     throw new \Error("Not Found", 404);
