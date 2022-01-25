@@ -123,10 +123,10 @@ function redirect(string $url): string
 }
 
 /**
- * uses request url path instead of url query parameter
+ * uses request uri path instead of url query parameter
  * @return void
  */
-function use_request_url(): void
+function use_request_uri(): void
 {
     $url = $_SERVER['REQUEST_URI'];
     if ($url[0] === '/') {
