@@ -1,6 +1,8 @@
 <?php
 use PHPUnit\Framework\TestCase;
 
+
+
 class RouterTest extends TestCase
 {
     public function test_method()
@@ -57,6 +59,46 @@ class RouterTest extends TestCase
 
         $this->assertEmpty(route(false, true, function() {$_GET['route_test_3'] = 1;}));
         $this->assertArrayNotHasKey('route_test_3', $_GET);
-        // can't test running the method due to the exit call in route
+
+
+        $this->assertEmpty(route(true, true, function() {$_GET['route_test_4'] = 1;}));
+        $this->assertArrayHasKey('route_test_4', $_GET);
+    }
+
+    public function test_router()
+    {
+        router(function () { $_GET['router_1'] = 1; });
+        $this->assertArrayHasKey('router_1', $_GET);
+    }
+
+    public function test_router_exception()
+    {
+        router(function () { throw new Exception("foo", 500); });
+        $this->expectOutputString('{"error":"foo"}');
+        $this->assertEquals(500, http_response_code());
+    }
+
+    public function test_router_error()
+    {
+        router(function () { throw new Error("foo", 400); });
+        $this->expectOutputString('{"error":"foo"}');
+        $this->assertEquals(400, http_response_code());
+    }
+
+    public function test_redirect()
+    {
+        redirect('/');
+        $headers = xdebug_get_headers();
+
+        $this->assertEquals(1, in_array('Location: /', $headers));
+    }
+
+    public function test_use_request_uri()
+    {
+        $_SERVER['REQUEST_URI'] = '/';
+
+        use_request_uri();
+
+        $this->assertEquals('', $_GET['url']);
     }
 }
