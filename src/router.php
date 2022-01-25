@@ -129,8 +129,8 @@ function redirect(string $url): string
 function use_request_url(): void
 {
     $url = $_SERVER['REQUEST_URI'];
-    if ($url = '/') {
-        $url = '';
+    if ($url[0] === '/') {
+        $url = substr($url, 1);
     }
 
     $_GET['url'] = $url;
