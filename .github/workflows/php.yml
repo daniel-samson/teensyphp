@@ -2,7 +2,9 @@ name: Build
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - main
+      - 'feature/**'
   pull_request:
     branches:
       - main
@@ -14,7 +16,7 @@ jobs:
     strategy:
       matrix:
         operating-system: ['ubuntu-latest', 'windows-latest', 'macos-latest']
-        php-versions: ['7.4', '8.0', '8.1']
+        php-versions: ['8.0', '8.1']
         phpunit-versions: ['latest']
         include:
         - operating-system: 'ubuntu-latest'
