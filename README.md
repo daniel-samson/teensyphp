@@ -52,6 +52,15 @@ router(function() {
 
 ## Installation
 
+### Create a new project
+```bash
+mkdir new-project
+cd new-project
+composer init
+```
+
+
+### Get teensyphp
 ```bash
 composer require daniel-samson/teensyphp
 ``` 
