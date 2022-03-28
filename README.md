@@ -27,9 +27,7 @@ router(function() {
     // use_request_uri();
     //
     // healthcheck
-    route(method(GET), url_path("/"), function () {
-        render(200, json_out(['status' => 'up']));
-    });
+    route(method(GET), url_path("/"), fn () => render(200, json_out(['status' => 'up'])));
     
     // Example url parameter
     route(method(GET), url_path_params("/hello/:name"), function () {
