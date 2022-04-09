@@ -39,9 +39,6 @@ router(function() {
         $body = json_in();
         render(201, json_out($body));
     });
-
-    // route not found
-    throw new \Error("Not Found", 404);
 });
 ```
 ## Requirements

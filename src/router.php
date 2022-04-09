@@ -86,6 +86,8 @@ function router(callable $routes)
 
     try {
        call_user_func($routes);
+       // throw when not routes can be found
+       throw. new \Error("Not Found", 404);
     } catch (Exception $e) {
         error_log($e->getMessage());
         error_log($e->getTraceAsString());
