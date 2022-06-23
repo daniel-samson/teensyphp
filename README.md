@@ -34,8 +34,8 @@ router(function() {
         render(200, json_out(['hello' => $_GET[':name']]));
     });
     
-    // Example JSON body
-    route(method(POST), url_path("/hello"), function () {
+    // Example JSON body (echo server)
+    route(method(POST), url_path("/echo"), function () {
         $body = json_in();
         render(201, json_out($body));
     });
