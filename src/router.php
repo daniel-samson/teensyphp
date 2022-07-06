@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__."/stop.php";
+require_once __DIR__ . "/stop.php";
 
 /** HTTP methods */
 const GET = 'GET';
@@ -37,7 +37,7 @@ function url_path(string $path): bool
     } elseif (!empty($path) && $path[0] === '/') {
         $path = substr($path, 1);
     }
-    
+
     return $path === $_GET['url'];
 }
 
@@ -62,12 +62,12 @@ function url_path_params(string $path): bool
     if ($pos !== false) {
         // starts with $path
         if (substr($path, 0, $pos) === substr($_GET['url'], 0, $pos)) {
-                foreach ($query_string_parts as $part => $query_string_part) {
-                    if ($path_parts[$part][0] === ':') {
-                        $_GET[$path_parts[$part]] = $query_string_part;
-                    }
+            foreach ($query_string_parts as $part => $query_string_part) {
+                if ($path_parts[$part][0] === ':') {
+                    $_GET[$path_parts[$part]] = $query_string_part;
                 }
-                return true;
+            }
+            return true;
         }
     }
 
@@ -85,9 +85,15 @@ function router(callable $routes)
     error_reporting(E_ALL);
 
     try {
-       call_user_func($routes);
-       // throw when not routes can be found
-       throw new \Error("Not Found", 404);
+        call_user_func($routes);
+
+        if (isset($GLOBALS['TEENSYPHP_STOP_CODE'])) {
+            // for testing purposes, do not throw error when stop() is called
+            return;
+        }
+
+        // throw when not routes can be found
+        throw new \Error("Not Found", 404);
     } catch (Exception $e) {
         error_log($e->getMessage());
         error_log($e->getTraceAsString());
