@@ -60,5 +60,23 @@ composer init
 composer require daniel-samson/teensyphp
 ``` 
 
+### Create index.php
+```php
+// index.php
+<?php
+require_once __DIR__ . '/vendor/autoload.php';
+
+router(function() {
+    // use_request_uri(); // Don't use mod-rewrite
+
+    // health check
+    route(method(GET), url_path("/"), function () {
+        render(200, json_out(['status' => 'up']));
+    });
+
+    // Add your endpoints / routes here ...
+});
+```
+
 ## Documentation
-Please see the [wiki](https://github.com/daniel-samson/teensyphp/wiki) for more information.
+Please see the [wiki](https://github.com/daniel-samson/teensyphp/wiki) for more information on how to rapidly create apps with teensyphp.
