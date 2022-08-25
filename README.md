@@ -5,7 +5,7 @@ Teensy PHP is a minimal web framework for rapidly creating REST APIs.
 ## Project Status
 [![Build](https://github.com/daniel-samson/teensyphp/actions/workflows/php.yml/badge.svg)](https://github.com/daniel-samson/teensyphp/actions/workflows/php.yml)
 [![codecov](https://codecov.io/gh/daniel-samson/teensyphp/branch/main/graph/badge.svg?token=oJv9JF2p1J)](https://codecov.io/gh/daniel-samson/teensyphp)
-
+[![CodeFactor](https://www.codefactor.io/repository/github/daniel-samson/teensyphp/badge)](https://www.codefactor.io/repository/github/daniel-samson/teensyphp)
 
 
 ## Features
