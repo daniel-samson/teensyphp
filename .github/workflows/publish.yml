@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Semver tags
-      uses: SOLIDSoftworks/semver-tags@v1.3.6
+      uses: SOLIDSoftworks/semver-tags@v1.5.2
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
         tag-prefix: 'v'
