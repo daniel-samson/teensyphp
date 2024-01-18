@@ -23,7 +23,7 @@ Teensy PHP is a minimal web framework for rapidly creating REST APIs and hyperme
 require_once __DIR__ . '/vendor/autoload.php';
 
 router(function() {
-    // uncomment when using laravel valet:
+    // uncomment when using laravel valet or when mod_rewrite is unavailable:
     // use_request_uri();
     //
     // healthcheck
@@ -31,7 +31,7 @@ router(function() {
     
     // Example url parameter
     route(method(GET), url_path_params("/hello/:name"), function () {
-        render(200, json_out(['hello' => $_GET[':name']]));
+        render(200, html_out(template('src/templates/hello.php', ['name' => $_GET[':name']])));
     });
     
     // Example JSON body (echo server)
@@ -44,39 +44,6 @@ router(function() {
 ## Requirements
 - PHP 7.2+
 - Composer
-
-## Installation
-
-### Create a new project
-```bash
-mkdir new-project
-cd new-project
-composer init
-```
-
-
-### Get teensyphp
-```bash
-composer require daniel-samson/teensyphp
-``` 
-
-### Create index.php
-```php
-// index.php
-<?php
-require_once __DIR__ . '/vendor/autoload.php';
-
-router(function() {
-    // use_request_uri(); // Don't use mod-rewrite
-
-    // health check
-    route(method(GET), url_path("/"), function () {
-        render(200, json_out(['status' => 'up']));
-    });
-
-    // Add your endpoints / routes here ...
-});
-```
 
 ## Documentation
 Please see the [wiki](https://github.com/daniel-samson/teensyphp/wiki) for more information on how to rapidly create apps with teensyphp.
