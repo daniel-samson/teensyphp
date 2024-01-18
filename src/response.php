@@ -14,9 +14,13 @@ const XML_CONTENT = 'text/xml';
  * render content to the client
  * @param int $http_code eg 200
  * @param string $content
+ * @param array $headers [header => value, ...]
  */
-function render(int $http_code, string $content): void
+function render(int $http_code, string $content, $headers = []): void
 {
+    foreach($headers as $header => $value) {
+      header("$header:" . $value);
+    }
     http_response_code($http_code);
     echo $content;
 }
