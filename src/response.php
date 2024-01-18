@@ -16,7 +16,7 @@ const XML_CONTENT = 'text/xml';
  * @param string $content
  * @param array $headers [header => value, ...]
  */
-function render(int $http_code, string $content, $headers = []): void
+function render(int $http_code, string $content, array $headers = []): void
 {
     foreach($headers as $header => $value) {
       header("$header:" . $value);
