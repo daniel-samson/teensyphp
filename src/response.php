@@ -56,3 +56,13 @@ function html_out(string $content): string
 {
     return content(HTML_CONTENT, $content);
 }
+
+/**
+ * set the response header
+ * @param string $header
+ * @param string $value
+ */
+function response_header(string $header, string $value): void
+{
+    header("$header: $value");
+}
