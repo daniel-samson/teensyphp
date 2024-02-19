@@ -5,17 +5,22 @@
   "license": "MIT",
   "minimum-stability": "dev",
   "require": {
-    "php": ">=7.2",
+    "php": ">=8.3",
     "ext-json": "*"
   },
   "autoload": {
+    "psr-4": {
+      "TeensyPhp\\Tests\\": "tests/TeensyPhp/",
+      "TeensyPhp\\": "src/TeensyPHP/"
+    },
     "files": [
       "src/stop.php",
       "src/router.php",
       "src/request.php",
       "src/response.php",
       "src/middleware.php",
-      "src/template.php"
+      "src/template.php",
+      "src/database.php"
     ]
   },
   "require-dev": {
