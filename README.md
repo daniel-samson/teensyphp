@@ -23,7 +23,7 @@ Teensy PHP is a minimal web framework for rapidly creating REST APIs and hyperme
 require_once __DIR__ . '/vendor/autoload.php';
 
 router(function() {
-    // uncomment when using laravel valet or when mod_rewrite is unavailable:
+    // uncomment when using laravel valet/herd or when mod_rewrite is unavailable:
     // use_request_uri();
     //
     // healthcheck
