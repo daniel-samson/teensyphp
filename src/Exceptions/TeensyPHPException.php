@@ -4,7 +4,7 @@ namespace TeensyPHP\Exceptions;
 
 class TeensyPHPException extends \Exception
 {
-    public function __construct(string $message = "Internal Server Error", int $code = 500)
+    public function __construct(string $message = "Internal Server Error", int $code = 500, ?\Throwable $previous = null)
     {
         parent::__construct();
         $this->message = $message;
@@ -37,7 +37,12 @@ class TeensyPHPException extends \Exception
      */
     public function getPrettyTraceAsString(): string
     {
-        return implode(PHP_EOL, $this->getPrettyTrace());
+        $traceString = '';
+        $trace = $this->getPrettyTrace();
+        foreach ($trace as $traceLine) {
+            $traceString .= $traceLine['file'] . ":" . $traceLine['line'] . " - " . $traceLine['function'] . PHP_EOL;
+        }
+        return $traceString;
     }
 
     /**
