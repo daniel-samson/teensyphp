@@ -123,7 +123,7 @@ trait Crud
         $result = $statement->execute(array_merge($values, [$id]));
 
         if ($result === false) {
-            TeensyPHPException::throwBadRequest("Failed to update record");
+            throw new TeensyPHPException("Failed to update record");
         }
 
         // fetch the object
@@ -142,9 +142,4 @@ trait Crud
         $statement = self::$DB->prepare($sql);
         return $statement->execute([$id]);
     }
-
-    // TODO: make builder
-    // TODO: add withMany($relatedTableName, $idName = "id")
-    // TODO: add withOne($relatedTableName, $idName = "id")
-    // TODO: add withManyToMany($relatedTableName, $pivotTableName, $idName = "id", $pivotIdName = "id")
 }

@@ -196,19 +196,18 @@ class CrudTest extends TestCase
         $pdo = new MockPdo("sqlite:mock.db");
         $pdoStatement = new MockPdoStatement();
         $pdoStatement->fetchAllReturns = [["id" => 1, "name" => "Daniel Samson"]];
+        $pdoStatement->executeReturns = false;
+
         $pdo->pdoStatement = $pdoStatement;
 
         // set up the mock pdo
         BaseEntity::$DB = $pdo;
 
-        // test not found
-        $pdoStatement->executeReturns = false;
-        $pdo->pdoStatement = $pdoStatement;
         // set up the mock pdo
         BaseEntity::$DB = $pdo;
         $this->expectException(TeensyPHPException::class);
-        $this->expectExceptionCode(404);
-        $this->expectExceptionMessage("Not Found");
+        $this->expectExceptionCode(500);
+        $this->expectExceptionMessage("Failed to update record");
         BaseEntity::update(["name" => "Daniel Samson"], 2);
     }
 
