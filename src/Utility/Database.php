@@ -24,7 +24,7 @@ class Database
 
     public static function instance(): Database
     {
-        if (self::$instance === null) {
+        if (isset(self::$instance) === false) {
             self::$instance = new Database();
         }
         return self::$instance;
