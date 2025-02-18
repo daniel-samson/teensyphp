@@ -17,19 +17,21 @@ class Config
     /**
      * Finds .env file and loads envs into environment
      * @param string $dir Directory to search for .env file
-     * @return void
+     * @return bool true if file was found and loaded
      */
-    public static function loadEnvFile(string $dir): void
+    public static function loadEnvFile(string $dir): bool
     {
 
         $envPath = $dir . "/.env";
         if (file_exists($envPath) === false) {
-            return;
+            return false;
         }
 
         $env = parse_ini_file($envPath, true);
         foreach ($env as $key => $value) {
             putenv("{$key}={$value}");
         }
+
+        return true;
     }
 }

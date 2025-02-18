@@ -35,8 +35,8 @@ class ConfigTest extends TestCase
 
     public function test_loadEnvFile_no_file()
     {
-        Config::loadEnvFile(__DIR__ . "/_data2");
-        $this->assertFalse(getenv("DB_DATABASE"));
+
+        $this->assertFalse(Config::loadEnvFile(__DIR__ . "/_data2"));
     }
 
     public function test_get_default()
