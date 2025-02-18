@@ -48,7 +48,7 @@ jobs:
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Run test suite
-      run: composer test --display-incomplete --display-skipped --display-warnings --display-errors --display-notice --display-deprecation
+      run: ./vendor/bin/phpunit --debug
   coverage:
     name: Code Coverage
     needs: test
