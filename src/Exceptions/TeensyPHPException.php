@@ -1,0 +1,66 @@
+<?php
+
+namespace TeensyPHP\Exceptions;
+
+class TeensyPHPException extends \Exception
+{
+    public function __construct(string $message = "Internal Server Error", int $code = 500)
+    {
+        parent::__construct();
+        $this->message = $message;
+        $this->code = $code;
+    }
+
+    public function __toString(): string
+    {
+        return $this->message;
+    }
+
+
+    /**
+     * @return array
+     */
+    public function getPrettyTrace(): array
+    {
+        $trace = debug_backtrace();
+
+        // hide lines that contain vendor
+        $trace = array_filter($trace, function ($trace) {
+            return !str_contains($trace['file'], 'vendor');
+        });
+        return $trace;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getPrettyTraceAsString(): string
+    {
+        return implode(PHP_EOL, $this->getPrettyTrace());
+    }
+
+    /**
+     * @throws TeensyPHPException
+     */
+    public static function throwNotFound(string $message = "Not Found", int $code = 404): static
+    {
+        throw new static($message, $code);
+    }
+
+    /**
+     * @throws TeensyPHPException
+     */
+    public static function throwBadRequest(string $message = "Bad Request", int $code = 400): static
+    {
+        throw new static($message, $code);
+    }
+
+    /**
+     * @throws TeensyPHPException
+     */
+    public static function throwUnauthorized(string $message = "Unauthorized", int $code = 401): static
+    {
+        throw new static($message, $code);
+    }
+}

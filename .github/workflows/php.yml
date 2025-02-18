@@ -9,6 +9,10 @@ on:
     branches:
       - main
       - 'feature/**'
+      - "epic/**"
+      - "release/**"
+      - "hotfix/**"
+      - "fix/**"
 
 jobs:
   test:
@@ -18,10 +22,6 @@ jobs:
         operating-system: ['ubuntu-latest', 'windows-latest', 'macos-latest']
         php-versions: ['8.0', '8.1']
         phpunit-versions: ['latest']
-        include:
-        - operating-system: 'ubuntu-latest'
-          php-versions: '7.2'
-          phpunit-versions: '8.5.13' 
 
     steps:
     - uses: actions/checkout@v4
