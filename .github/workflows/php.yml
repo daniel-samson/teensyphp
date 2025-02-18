@@ -4,24 +4,22 @@ on:
   push:
     branches:
       - main
-      - 'feature/**'
   pull_request:
     branches:
       - main
       - 'feature/**'
+      - "epic/**"
+      - "release/**"
+      - "hotfix/**"
+      - "fix/**"
 
 jobs:
   test:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
-        operating-system: ['ubuntu-latest', 'windows-latest', 'macos-latest']
-        php-versions: ['8.0', '8.1']
-        phpunit-versions: ['latest']
-        include:
-        - operating-system: 'ubuntu-latest'
-          php-versions: '7.2'
-          phpunit-versions: '8.5.13' 
+        operating-system: ['ubuntu-latest']
+        php-versions: ['8.0', '8.1', "8.3", "8.4"]
 
     steps:
     - uses: actions/checkout@v4
@@ -49,7 +47,7 @@ jobs:
     # Docs: https://getcomposer.org/doc/articles/scripts.md
 
     - name: Run test suite
-      run: composer test
+      run: ./vendor/bin/phpunit --debug
   coverage:
     name: Code Coverage
     needs: test
