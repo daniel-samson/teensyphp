@@ -5,6 +5,16 @@ use TeensyPHP\Utility\Config;
 
 class ConfigTest extends TestCase
 {
+    public function beforeEach(): void
+    {
+        putenv("DB_DATABASE=");
+        putenv("DB_USERNAME=");
+        putenv("DB_PASSWORD=");
+        putenv("DB_HOST=");
+        putenv("DB_PORT=");
+        putenv("DB_ENGINE=");
+    }
+
     public function test_loadEnvFile()
     {
         Config::loadEnvFile(__DIR__ . "/_data");
