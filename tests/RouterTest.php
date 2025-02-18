@@ -85,20 +85,41 @@ class RouterTest extends TestCase
 
     public function test_router_exception()
     {
+        // Temporarily redirect error_log to a file or null sink
+        ini_set('error_log', '/dev/null');
+
+        ob_start();
         router(function () {
-            throw new Exception("foo", 500);
+            throw new Exception("This is an exception.", 500);
         });
-        $this->expectOutputString('{"error":"foo"}');
+        $output = ob_get_clean();
+
         $this->assertEquals(500, http_response_code());
+        // Assert the output is the correct JSON message
+        $this->assertJson($output);
+        $this->assertEquals(
+            json_encode(["error" => "This is an exception."]),
+            $output
+        );
     }
 
     public function test_router_error()
     {
+        // Temporarily redirect error_log to a file or null sink
+        ini_set('error_log', '/dev/null');
+
+        ob_start();
         router(function () {
-            throw new Error("foo", 400);
+            throw new Error("This is an error.", 400);
         });
-        $this->expectOutputString('{"error":"foo"}');
+        $output = ob_get_clean();
         $this->assertEquals(400, http_response_code());
+        // Assert the output is the correct JSON message
+        $this->assertJson($output);
+        $this->assertEquals(
+            json_encode(["error" => "This is an error."]),
+            $output
+        );
     }
 
     public function test_redirect()
