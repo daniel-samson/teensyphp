@@ -21,7 +21,6 @@ class Config
      */
     public static function loadEnvFile(string $dir): bool
     {
-
         $envPath = $dir . "/.env";
         if (file_exists($envPath) === false) {
             return false;

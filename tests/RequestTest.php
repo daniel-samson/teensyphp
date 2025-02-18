@@ -37,16 +37,4 @@ class RequestTest extends TestCase
         $actual = accept('applicartion/json');
         $this->assertFalse($actual);
     }
-
-    public function test_request_body()
-    {
-//        request_body();
-       $this->markTestSkipped('php://input is really hard to test');
-    }
-
-    public function test_json_in()
-    {
-//        json_in();
-        $this->markTestSkipped('php://input is really hard to test');
-    }
 }
