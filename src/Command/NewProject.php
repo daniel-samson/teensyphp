@@ -59,6 +59,7 @@ final class NewProject
 
         $hiddenFiles = [
             ".env.example",
+            ".gitignore"
         ];
 
         foreach ($hiddenFiles as $hiddenFile) {
