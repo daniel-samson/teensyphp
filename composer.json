@@ -19,7 +19,8 @@
       "src/template.php"
     ],
     "psr-4": {
-      "TeensyPHP\\": "src/"
+      "TeensyPHP\\": "src/",
+      "TeensyPHPTests\\": "tests/App"
     }
   },
   "require-dev": {
