@@ -57,6 +57,18 @@ final class NewProject
             exec("cp -r " . $sourceDir . "/* " . $targetDir);
         }
 
+        $hiddenFiles = [
+            ".env.example",
+        ];
+
+        foreach ($hiddenFiles as $hiddenFile) {
+            $sourceFile = $sourceDir . "/" . $hiddenFile;
+            $targetFile = $targetDir . "/" . $hiddenFile;
+            if (file_exists($sourceFile)) {
+                copy($sourceFile, $targetFile);
+            }
+        }
+
         $email = 'nobody@example.com';
         $author = 'nobody';
         if ($this->commandExists("git")) {
