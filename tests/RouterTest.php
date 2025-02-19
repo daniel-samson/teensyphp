@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . "/_data/SingleActionController.php";
 
 use PHPUnit\Framework\TestCase;
 
@@ -137,5 +138,13 @@ class RouterTest extends TestCase
         use_request_uri();
 
         $this->assertEquals('', $_GET['url']);
+    }
+
+    public function test_route_class()
+    {
+        ob_start();
+        route(true, true, SingleActionController::class);
+        $output = ob_get_clean();
+        $this->assertEquals(json_encode(["message" => "Hello World"]), $output);
     }
 }
