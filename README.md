@@ -18,7 +18,7 @@ Teensy PHP is a micro web framework for rapidly creating REST APIs and hypermedi
 
 ## Example
 ```php
-// index.php
+// routes/index.php
 <?php
 require_once __DIR__ . '/vendor/autoload.php';
 
