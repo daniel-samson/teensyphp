@@ -22,6 +22,9 @@
       "TeensyPHP\\": "src/"
     }
   },
+  "bin": [
+    "bin/teensyphp"
+  ],
   "require-dev": {
     "phpunit/phpunit": "10.5.9"
   },

@@ -47,3 +47,16 @@ router(function() {
 
 ## Documentation
 Please see the [wiki](https://github.com/daniel-samson/teensyphp/wiki) for more information on how to rapidly create apps with teensyphp.
+
+## Creating a new project
+
+### Install teensyphp command line tool
+```shell
+composer global require daniel-samson/teensyphp
+```
+
+### Create a new project
+
+```shell
+teensyphp new project-name
+```

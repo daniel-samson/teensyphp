@@ -1,0 +1,7 @@
+.idea/
+vendor/
+node_modules/
+.env
+*.swp
+*.lock
+.DS_Store
