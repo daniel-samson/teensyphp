@@ -68,8 +68,7 @@ final class NewProject
 
         // replace placeholders in composer.json
         $composerJson = template($targetDir . "/composer.json.php", [
-            "project-dirname" => $projectName,
-            "project-namespace" => $projectName,
+            "project_dirname" => $projectName,
             "author" => "Daniel Samson",
             "email" => "12231216+daniel-samson@users.noreply.github.com",
             "vender" => "daniel-samson",
@@ -78,6 +77,7 @@ final class NewProject
         unlink($composerJsonPath . ".php");
 
         if ($this->commandExists("git")) {
+            echo "Initializing git repository...".PHP_EOL;
             // store cwd
             $cwd = getcwd();
             // init git repo inside $targetDir
@@ -88,6 +88,12 @@ final class NewProject
             exec("git commit -m 'Initial commit'");
             chdir($cwd);
         }
+
+        // run composer install
+        $cwd = getcwd();
+        chdir($targetDir);
+        exec("composer install");
+        chdir($cwd);
 
         $this->displayFinishedMessage($projectName);
         stop();
