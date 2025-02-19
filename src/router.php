@@ -109,12 +109,17 @@ function router(callable $routes)
  * Calls an action when the http method and path match the request before closing the connection
  * @param bool $http_method_predicate
  * @param bool $path_predicate
- * @param callable $action
+ * @param callable|string $action - class (with invoke method) or function
  */
-function route(bool $http_method_predicate, bool $path_predicate, callable $action): void
+function route(bool $http_method_predicate, bool $path_predicate, callable|string $action): void
 {
     if (!$http_method_predicate || !$path_predicate) {
         return;
+    }
+
+    if (is_string($action)) {
+        // allow invoking a class (single action controller)
+        $action = new $action();
     }
 
     call_user_func_array($action, array());
