@@ -27,7 +27,7 @@ trait Crud
             TeensyPHPException::throwNotFound();
         }
 
-        $records = $statement->fetchAll();
+        $records = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
         if (count($records) !== 1) {
             TeensyPHPException::throwNotFound();
@@ -51,7 +51,7 @@ trait Crud
             TeensyPHPException::throwNotFound();
         }
 
-        $records = $statement->fetchAll();
+        $records = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
         return array_map(function ($record) {
             return self::make($record);
