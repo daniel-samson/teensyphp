@@ -35,4 +35,8 @@ no_php_headers();
 start_session();
 
 // load routes
-require_once APP_ROOT . "/routes/index.php";
+router(function () {
+    use_request_uri();
+    require_once APP_ROOT . "/routes/web.php";
+    require_once APP_ROOT . "/routes/api.php";
+});
