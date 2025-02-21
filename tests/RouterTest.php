@@ -7,6 +7,13 @@ use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
 {
+    public function tearDown(): void
+    {
+        global $PATH_PREFIX;
+        $PATH_PREFIX = '';
+        $_GET['url'] = '';
+    }
+
     public function test_method()
     {
         $_SERVER['REQUEST_METHOD'] = PUT;
@@ -29,6 +36,13 @@ class RouterTest extends TestCase
         $_GET['url'] = 'hello';
         $actual = url_path('/hello');
         $this->assertTrue($actual);
+
+        // test group
+        global $PATH_PREFIX;
+        $PATH_PREFIX = 'api';
+        $_GET['url'] = 'api/hello';
+        $actual = url_path('/hello');
+        $this->assertTrue($actual);
     }
 
     public function test_url_path_params()
@@ -42,6 +56,13 @@ class RouterTest extends TestCase
         $_GET['url'] = '1';
         $this->assertTrue(url_path_params('/:id'));
         $this->assertFalse(url_path_params('/1'));
+
+        // test group
+        global $PATH_PREFIX;
+        $PATH_PREFIX = 'api';
+        $_GET['url'] = 'api/hello/1';
+        $actual = url_path_params('/hello/:id');
+        $this->assertTrue($actual);
     }
 
     public function test_template()
@@ -123,6 +144,52 @@ class RouterTest extends TestCase
         );
     }
 
+    public function test_router_group()
+    {
+        global $PATH_PREFIX;
+        $PATH_PREFIX = '';
+        $_GET['url'] = 'api/hello';
+        ob_start();
+        router(function () {
+            routerGroup('/api', function () {
+                route(true, url_path('/hello'), function () {
+                    echo 'hello';
+                });
+            });
+        });
+        $output = ob_get_clean();
+        $this->assertEquals('hello', $output);
+
+        $PATH_PREFIX = '';
+        $_GET['url'] = 'api/hello';
+        ob_start();
+        router(function () {
+            routerGroup('/api', function () {
+                routerGroup('/hello', function () {
+                    route(true, url_path('/'), function () {
+                        echo 'hello2';
+                    });
+                });
+            });
+        });
+        $output2 = ob_get_clean();
+        $this->assertEquals('hello2', $output2);
+
+        $PATH_PREFIX = '';
+        $_GET['url'] = 'api/hello';
+        ob_start();
+        router(function () {
+            routerGroup('/api/', function () {
+                routerGroup('/hello', function () {
+                    route(true, url_path('/'), function () {
+                        echo 'hello2';
+                    });
+                });
+            });
+        });
+        $output2 = ob_get_clean();
+        $this->assertEquals('hello2', $output2);
+    }
     public function test_redirect()
     {
         redirect('/');

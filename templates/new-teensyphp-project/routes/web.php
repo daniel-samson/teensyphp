@@ -1,10 +1,7 @@
 <?php
-
 use App\Actions\Home\DisplayHome;
 
-router(function () {
-    use_request_uri();
 
+routerGroup("/", function () {
     route(method(GET), url_path('/'), DisplayHome::class);
-
 });
