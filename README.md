@@ -42,7 +42,7 @@ router(function() {
 });
 ```
 ## Requirements
-- PHP 7.2+
+- PHP 8.0+
 - Composer
 
 ## Documentation
