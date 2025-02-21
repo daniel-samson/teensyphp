@@ -38,6 +38,15 @@ function url_path(string $path): bool
         $path = substr($path, 1);
     }
 
+    global $PATH_PREFIX;
+    if(!empty($PATH_PREFIX)) {
+        $path = $PATH_PREFIX . "/" . $path;
+    }
+
+    if (str_ends_with($path, '/')) {
+        $path = substr($path, 0, -1);
+    }
+
     return $path === $_GET['url'];
 }
 
@@ -50,6 +59,11 @@ function url_path_params(string $path): bool
 {
     if ($path[0] === '/') {
         $path = substr($path, 1);
+    }
+
+    global $PATH_PREFIX;
+    if(!empty($PATH_PREFIX)) {
+        $path = $PATH_PREFIX . "/" . $path;
     }
 
     $query_string_parts = explode('/', $_GET['url']);
@@ -72,6 +86,34 @@ function url_path_params(string $path): bool
     }
 
     return false;
+}
+
+
+/**
+ * Group routes by prefix
+ * @param $prefix
+ * @param callable $routes
+ * @return void
+ */
+function routerGroup($prefix, callable $routes): void
+{
+    global $PATH_PREFIX;
+    $previous_prefix = $PATH_PREFIX;
+    $PATH_PREFIX .= $prefix;
+
+    if (!empty($PATH_PREFIX) && $PATH_PREFIX[0] === '/') {
+        $PATH_PREFIX = substr($PATH_PREFIX, 1);
+    }
+
+    // if last character is a slash, remove it
+    if (str_ends_with($PATH_PREFIX, '/')) {
+        $PATH_PREFIX = substr($PATH_PREFIX, 0, -1);
+    }
+
+    call_user_func($routes);
+
+    // reset path prefix
+    $PATH_PREFIX = $previous_prefix;
 }
 
 /**
