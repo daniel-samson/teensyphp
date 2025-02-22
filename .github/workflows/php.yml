@@ -8,10 +8,10 @@ on:
     branches:
       - main
       - 'feature/**'
-      - "epic/**"
-      - "release/**"
-      - "hotfix/**"
-      - "fix/**"
+      - 'epic/**'
+      - 'release/**'
+      - 'hotfix/**'
+      - 'fix/**'
 
 jobs:
   test:
