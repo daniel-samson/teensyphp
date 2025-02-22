@@ -60,9 +60,12 @@ trait Crud
 
     public static function make(array $data = []): static
     {
+        $properties = get_object_vars(new static());
         $object = new static();
-        foreach ($data as $key => $value) {
-            $object->{$key} = $value;
+        foreach ($properties as $key => $value) {
+            if (isset($data[$key])) {
+                $object->{$key} = $data[$key];
+            }
         }
         return $object;
     }
@@ -92,13 +95,7 @@ trait Crud
 
         // get the last inserted id
         $id = self::$DB->lastInsertId();
-        // fetch the object
-        $object = self::find($id);
-        $publicProperties = get_object_vars($object);
-        foreach ($publicProperties as $key => $value) {
-            $object->{$key} = $value;
-        }
-        return $object;
+        return self::find($id);
     }
 
     /**
