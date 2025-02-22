@@ -60,11 +60,13 @@ trait Crud
 
     public static function make(array $data = []): static
     {
-        $properties = get_object_vars(new static());
         $object = new static();
-        foreach ($properties as $key => $value) {
-            if (isset($data[$key])) {
-                $object->{$key} = $data[$key];
+        // get public properties of class
+        $reflect = new \ReflectionClass(static::class);
+        $properties   = $reflect->getProperties(\ReflectionProperty::IS_PUBLIC);
+        foreach ($properties as $property) {
+            if (isset($data[$property->name])) {
+                $object->{$property->name} = $data[$property->name];
             }
         }
         return $object;
