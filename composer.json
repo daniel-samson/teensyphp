@@ -27,7 +27,7 @@
     "bin/teensyphp"
   ],
   "require-dev": {
-    "phpunit/phpunit": "12.1.3"
+    "phpunit/phpunit": "12.1.4"
   },
   "scripts": {
     "test": "./vendor/bin/phpunit",
