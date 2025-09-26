@@ -14,26 +14,39 @@ Teensy PHP is a micro web framework for rapidly creating REST APIs and hypermedi
 - PHP Templating Engine
 - Middleware Support
 - Easy to inject or replace functionality (its just some small functions)
+- Database Connection Manager
+- ArrayAccessImplementation, Crud Traits
 
 
 ## Example
 ```php
 
 <?php
-require_once __DIR__ . '/vendor/autoload.php';
+// routes/web.php
+use App\Actions\Home\DisplayHome;
 
-router(function() {
-    // uncomment when using laravel valet/herd or when mod_rewrite is unavailable:
-    // use_request_uri();
-    //
-    // healthcheck
-    route(method(GET), url_path("/"), fn () => render(200, json_out(['status' => 'up'])));
-    
+routerGroup("/", function () {
+    // Homepage
+    route(method(GET), url_path('/'), DisplayHome::class);
+
     // Example url parameter
     route(method(GET), url_path_params("/hello/:name"), function () {
         render(200, html_out(template('src/templates/hello.php', ['name' => $_GET[':name']])));
     });
-    
+});
+```
+
+```php
+<?php
+// routes/api.php
+
+// /api/{route}
+routerGroup("/api", function () {
+    // API home
+    route(method("GET"), url_path("/"), function () {
+        render(200, json_out(["message" => "Hello World!"]));
+    });
+
     // Example JSON body (echo server)
     route(method(POST), url_path("/echo"), function () {
         $body = json_in();
@@ -41,6 +54,26 @@ router(function() {
     });
 });
 ```
+
+```php
+<?php
+// App/Actions/Home/DisplayHome.php
+namespace App\Actions\Home;
+
+class DisplayHome
+{
+    public function __invoke()
+    {
+        $accept = request_header('Accept');
+        if ($accept === 'application/json') {
+            render(200, json_out(['message' => 'Hello World']));
+        } else {
+            render(200, html_out(template(APP_ROOT . "/templates/pages/home.php", [])));
+        }
+    }
+}
+```
+
 ## Requirements
 - PHP 8.0+
 - Composer
