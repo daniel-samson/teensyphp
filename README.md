@@ -13,7 +13,7 @@ Teensy PHP is a micro web framework for rapidly creating REST APIs and hypermedi
 - Simple Router
 - PHP Templating Engine
 - Middleware Support
-- Easy to inject or replace functionality (its just some small functions)\
+- Easy to inject or replace functionality (its just some small functions)
 - env Config Utility
 - Database Connection Manager Utility
 - ArrayAccessImplementation, Crud Traits
