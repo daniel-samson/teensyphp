@@ -51,6 +51,7 @@ Please see the [wiki](https://github.com/daniel-samson/teensyphp/wiki) for more 
 ## Creating a new project
 
 ### Install teensyphp command line tool
+
 ```shell
 composer global require daniel-samson/teensyphp
 ```
@@ -59,4 +60,21 @@ composer global require daniel-samson/teensyphp
 
 ```shell
 teensyphp new project-name
+cd project-name
+composer install
+```
+
+### Start buit in web server
+
+```shell
+composer dev
+```
+
+- open web route [http://localhost:8000](http://localhost:8000)
+- open api route [http://localhost:8000/api](http://localhost:8000/api)
+
+## Update Teensyphp
+
+```shell
+composer global update
 ```
