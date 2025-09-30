@@ -30,6 +30,12 @@ try {
     throw new TeensyPHPException("Failed to connect to database");
 }
 
+if (Config::get("LOG_LEVEL")) {
+    Log::setLevel(LogLevelEnum::fromString(Config::get("LOG_LEVEL")));
+} else {
+    Log::setLevel(LogLevelEnum::INFO);
+}
+
 no_php_headers();
 
 start_session();
