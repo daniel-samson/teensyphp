@@ -69,7 +69,7 @@ class DisplayHome
         if ($accept === 'application/json') {
             render(200, json_out(['message' => 'Hello World']));
         } else {
-            render(200, html_out(template(APP_ROOT . "/templates/pages/home.php", [])));
+            render(200, html_out(template(app_root() . "/templates/pages/home.php", [])));
         }
     }
 }

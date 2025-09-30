@@ -7,11 +7,27 @@ use PHPUnit\Framework\TestCase;
 
 class RouterTest extends TestCase
 {
+    public function setUp(): void
+    {
+        $_SERVER['DOCUMENT_ROOT'] = dirname(__DIR__) . "/templates/new-teensyphp-project/public";
+        // disable error logging to prevent tests being marked as risky
+        error_reporting(0);
+        ini_set('log_errors', '0');
+    }
+
     public function tearDown(): void
     {
         global $PATH_PREFIX;
         $PATH_PREFIX = '';
         $_GET['url'] = '';
+        if (isset($_SERVER['HTTP_ACCEPT'])) {
+            unset($_SERVER['HTTP_ACCEPT']);
+        }
+
+
+        if (isset($GLOBALS['TEENSYPHP_STOP_CODE'])) {
+            unset($GLOBALS['TEENSYPHP_STOP_CODE']);
+        }
     }
 
     public function test_method()
@@ -98,17 +114,20 @@ class RouterTest extends TestCase
 
     public function test_router()
     {
+        ob_start();
         router(function () {
-            stop();
+            route(true, true, function () {
+                echo 'router_test_output';
+            });
         });
+        $output = ob_get_clean();
 
-        $this->assertArrayHasKey('TEENSYPHP_STOP_CODE', $GLOBALS);
+        $this->assertEquals('router_test_output', $output);
     }
 
-    public function test_router_exception()
+    public function test_router_json_exception()
     {
-        // Temporarily redirect error_log to a file or null sink
-        ini_set('error_log', '/dev/null');
+        $_SERVER['HTTP_ACCEPT'] = 'application/json';
 
         ob_start();
         router(function () {
@@ -120,12 +139,45 @@ class RouterTest extends TestCase
         // Assert the output is the correct JSON message
         $this->assertJson($output);
         $this->assertEquals(
-            json_encode(["error" => "This is an exception."]),
+                json_encode(["error" => ["message" => "This is an exception.", "code" => 500]]),
+                $output
+        );
+    }
+
+    public function test_router_html_exception()
+    {
+        ob_start();
+        router(function () {
+            throw new Exception("This is an exception.", 500);
+        });
+        $output = ob_get_clean();
+
+        $this->assertEquals(500, http_response_code());
+        // Assert the output is the correct HTML message
+        $this->assertStringContainsString('This is an exception.', $output);
+    }
+
+    public function test_router_json_error()
+    {
+        // Temporarily redirect error_log to a file or null sink
+        ini_set('error_log', '/dev/null');
+
+        ob_start();
+        $_SERVER['HTTP_ACCEPT'] = 'application/json';
+        router(function () {
+            throw new Error("This is an error.", 400);
+        });
+        $output = ob_get_clean();
+        $this->assertEquals(400, http_response_code());
+        // Assert the output is the correct JSON message
+        $this->assertJson($output);
+        $this->assertEquals(
+            json_encode(["error" => ["message" => "This is an error.", "code" => 400]]),
             $output
         );
     }
 
-    public function test_router_error()
+    public function test_router_html_error()
     {
         // Temporarily redirect error_log to a file or null sink
         ini_set('error_log', '/dev/null');
@@ -136,12 +188,8 @@ class RouterTest extends TestCase
         });
         $output = ob_get_clean();
         $this->assertEquals(400, http_response_code());
-        // Assert the output is the correct JSON message
-        $this->assertJson($output);
-        $this->assertEquals(
-            json_encode(["error" => "This is an error."]),
-            $output
-        );
+        // Assert the output is the correct HTML message
+        $this->assertStringContainsString('This is an error.', $output);
     }
 
     public function test_router_group()

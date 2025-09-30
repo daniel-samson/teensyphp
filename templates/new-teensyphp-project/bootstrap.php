@@ -14,7 +14,7 @@ set_exception_handler(function($exception) {
 });
 
 // load .env file
-Config::loadEnvFile(APP_ROOT );
+Config::loadEnvFile(app_root() );
 
 try {
     BaseEntity::$DB = Database::connect(
@@ -37,6 +37,6 @@ start_session();
 // load routes
 router(function () {
     use_request_uri();
-    require_once APP_ROOT . "/routes/web.php";
-    require_once APP_ROOT . "/routes/api.php";
+    require_once app_root() . "/routes/web.php";
+    require_once app_root() . "/routes/api.php";
 });
