@@ -2,8 +2,17 @@
 
 namespace TeensyPHP\Utility;
 
+/**
+ * Config class
+ */
 class Config
 {
+    /**
+     * Get a config value from the environment variables
+     * @param string $key
+     * @param string|array|bool $default
+     * @return string|array|bool
+     */
     public static function get(string $key, string|array|bool $default = false): string|array|bool
     {
         $env = getenv($key);

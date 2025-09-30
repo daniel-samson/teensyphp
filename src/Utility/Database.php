@@ -2,11 +2,24 @@
 
 namespace TeensyPHP\Utility;
 
+/**
+ * Database connection
+ */
 class Database
 {
     protected static \PDO $PDO;
     protected static Database $instance;
 
+    /**
+     * Connect to the database
+     * @param string $engine
+     * @param string $database
+     * @param string $host
+     * @param int $port
+     * @param string|null $username
+     * @param string|null $password
+     * @return Database
+     */
     public static function connect(
         string $engine,
         string $database,
@@ -21,7 +34,10 @@ class Database
         return self::instance();
     }
 
-
+    /**
+     * Get the database instance
+     * @return Database
+     */
     public static function instance(): Database
     {
         if (isset(self::$instance) === false) {
@@ -30,6 +46,14 @@ class Database
         return self::$instance;
     }
 
+    /**
+     * Generate the DSN for the database
+     * @param string $engine
+     * @param string $database
+     * @param string $host
+     * @param int $port
+     * @return string
+     */
     public static function dsn($engine, $database, $host = '', $port = 0): string
     {
         if ($host === '') {
@@ -70,6 +94,10 @@ class Database
         return $dsn;
     }
 
+    /**
+     * Get the database connection
+     * @return \PDO
+     */
     public static function connection(): \PDO
     {
         return self::$PDO;

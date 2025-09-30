@@ -4,10 +4,21 @@ namespace TeensyPHP\Traits;
 
 use TeensyPHP\Exceptions\TeensyPHPException;
 
+/**
+ * Crud trait
+ */
 trait Crud
 {
+    /**
+     * The database connection
+     * @var \PDO
+     */
     public static \PDO $DB;
 
+    /**
+     * The table name
+     * @var string
+     */
     protected static string $table = 'undefined';
 
     /**
@@ -58,6 +69,11 @@ trait Crud
         }, $records);
     }
 
+    /**
+     * Make an object from an array
+     * @param array $data
+     * @return static
+     */
     public static function make(array $data = []): static
     {
         $object = new static();

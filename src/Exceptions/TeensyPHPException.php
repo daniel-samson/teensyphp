@@ -2,8 +2,16 @@
 
 namespace TeensyPHP\Exceptions;
 
+/**
+ * TeensyPHPException
+ */
 class TeensyPHPException extends \Exception
 {
+    /**
+     * @param string $message
+     * @param int $code
+     * @param \Throwable|null $previous
+     */
     public function __construct(string $message = "Internal Server Error", int $code = 500, ?\Throwable $previous = null)
     {
         parent::__construct();

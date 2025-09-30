@@ -2,8 +2,16 @@
 
 namespace TeensyPHP\Command;
 
+/**
+ * NewProject command
+ */
 final class NewProject
 {
+    /**
+     * @param array $options
+     * @param array $arguments
+     * @return void
+     */
     public function __invoke($options, $arguments): void
     {
         if (isset($options['help']) || isset($options['h']) || count($arguments) < 2) {
@@ -28,6 +36,10 @@ final class NewProject
         stop();
     }
 
+    /**
+     * Display the help message
+     * @return void
+     */
     private function displayHelp(): void
     {
         echo "Usage: teensyphp new [options] project-name".PHP_EOL;
@@ -35,6 +47,12 @@ final class NewProject
         echo "  -h, --help\t Display this help message".PHP_EOL;
     }
 
+    /**
+     * Create a new project
+     * @param string $projectName
+     * @param string $projectDir
+     * @return void
+     */
     private function createProject(string $projectName, string $projectDir): void
     {
         // copy templates/new-teensyphp-project to projectDir
@@ -112,6 +130,11 @@ final class NewProject
         stop();
     }
 
+    /**
+     * Check if a command exists
+     * @param string $command
+     * @return bool
+     */
     private function commandExists (string $command): bool
     {
         $whereIsCommand = (PHP_OS == 'WINNT') ? 'where' : 'which';
@@ -138,6 +161,11 @@ final class NewProject
         return false;
     }
 
+    /**
+     * Display the finished message
+     * @param string $projectName
+     * @return void
+     */
     private function displayFinishedMessage(string $projectName): void
     {
         echo "Project created successfully".PHP_EOL;

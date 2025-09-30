@@ -2,8 +2,14 @@
 
 namespace TeensyPHP\Command;
 
+/**
+ * ShowHelp command
+ */ 
 final class ShowHelp
 {
+    /**
+     * @return void
+     */
     public function __invoke()
     {
         echo "Usage: teensyphp command [options]\n";

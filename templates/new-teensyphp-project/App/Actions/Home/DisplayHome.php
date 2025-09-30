@@ -2,8 +2,14 @@
 
 namespace App\Actions\Home;
 
+/**
+ * DisplayHome action - displays the home page
+ */
 class DisplayHome
 {
+    /**
+     * @return void
+     */
     public function __invoke()
     {
         $accept = request_header('Accept');
