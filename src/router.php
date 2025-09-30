@@ -139,11 +139,19 @@ function router(callable $routes)
     } catch (Exception $e) {
         error_log($e->getMessage());
         error_log($e->getTraceAsString());
-        render($e->getCode(), json_out(['error' => $e->getMessage()]));
+        if (accept(JSON_CONTENT)) {
+            render($e->getCode(), json_out(['error' => $e->getMessage()]));
+        } else {
+            render($e->getCode(), template(APP_ROOT . "/templates/pages/500.php", ['error' => $e->getMessage()]));
+        }
     } catch (Error $e) {
         error_log($e->getMessage());
         error_log($e->getTraceAsString());
-        render($e->getCode(), json_out(['error' => $e->getMessage()]));
+        if (accept(JSON_CONTENT)) {
+            render($e->getCode(), json_out(['error' => $e->getMessage()]));
+        } else {
+            render($e->getCode(), template(APP_ROOT . "/templates/pages/500.php", ['error' => $e->getMessage()]));
+        }
     }
 }
 
