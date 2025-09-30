@@ -12,7 +12,7 @@ class MockPdoStatement extends \PDOStatement
         return $this->executeReturns;
     }
 
-    public function fetchAll(int $mode = null, ...$args): array
+    public function fetchAll(?int $mode = null, ...$args): array
     {
         $this->lastFetchAllParams = $args;
         return $this->fetchAllReturns;

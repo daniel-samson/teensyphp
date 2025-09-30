@@ -1,9 +1,18 @@
 <?php
 function request_header(string $header): string
 {
-    $headers = getallheaders();
-    if (key_exists($header, $headers)) {
-        return $headers[$header];
+    // Handle CLI/test environment where getallheaders() might not work
+    if (function_exists('getallheaders')) {
+        $headers = getallheaders();
+        if (key_exists($header, $headers)) {
+            return $headers[$header];
+        }
+    }
+    
+    // Fallback to $_SERVER for CLI/test environment
+    $server_key = 'HTTP_' . strtoupper(str_replace('-', '_', $header));
+    if (isset($_SERVER[$server_key])) {
+        return $_SERVER[$server_key];
     }
 
     return "";
