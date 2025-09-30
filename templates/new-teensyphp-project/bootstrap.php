@@ -4,6 +4,8 @@ use TeensyPHP\Exceptions\TeensyPHPException;
 use TeensyPHP\Utility\Config;
 use TeensyPHP\Utility\Database;
 use App\Entity\BaseEntity;
+use TeensyPHP\Utility\Log;
+use TeensyPHP\Utility\LogLevelEnum;
 
 require_once(__DIR__ . "/vendor/autoload.php");
 require_once(__DIR__ . "/globals.php");
