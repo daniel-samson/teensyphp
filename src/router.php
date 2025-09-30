@@ -160,10 +160,10 @@ function router(callable $routes)
         // throw when not routes can be found
         throw new \Error("Not Found", 404);
     } catch (Exception $e) {
-        Log::log("{$e->getCode()}: {$e->getMessage()}".PHP_EOL.$e->getTraceAsString());
+        Log::error("{$e->getCode()}: {$e->getMessage()}".PHP_EOL.$e->getTraceAsString());
         render_error($e);
     } catch (Error $e) {
-        Log::log("{$e->getCode()}: {$e->getMessage()}".PHP_EOL.$e->getTraceAsString());
+        Log::error("{$e->getCode()}: {$e->getMessage()}".PHP_EOL.$e->getTraceAsString());
         render_error($e);
     }
 }
