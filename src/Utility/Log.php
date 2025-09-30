@@ -45,7 +45,7 @@ class Log
     public static function debug(string $message): bool
     {
         if (self::isLogLevelEnabled(LogLevelEnum::DEBUG)) {
-            return self::log($message);
+            return self::log("[DEBUG] $message");
         }
 
         return false;
@@ -59,7 +59,7 @@ class Log
     public static function info(string $message): bool
     {
         if (self::isLogLevelEnabled(LogLevelEnum::INFO)) {
-            return self::log($message);
+            return self::log("[INFO] $message");
         }
 
         return false;
@@ -73,7 +73,7 @@ class Log
     public static function warning(string $message): bool
     {
         if (self::isLogLevelEnabled(LogLevelEnum::WARNING)) {
-            return self::log($message);
+            return self::log("[WARNING] $message");
         }
 
         return false;
@@ -87,7 +87,7 @@ class Log
     public static function error(string $message): bool
     {
         if (self::isLogLevelEnabled(LogLevelEnum::ERROR)) {
-            return self::log($message);
+            return self::log("[ERROR] $message");
         }
 
         return false;
@@ -101,7 +101,7 @@ class Log
     public static function critical(string $message): bool
     {
         if (self::isLogLevelEnabled(LogLevelEnum::CRITICAL)) {
-            return self::log($message);
+            return self::log("[CRITICAL] $message");
         }
 
         return false;
@@ -115,7 +115,7 @@ class Log
     public static function alert(string $message): bool
     {
         if (self::isLogLevelEnabled(LogLevelEnum::ALERT)) {
-            return self::log($message);
+            return self::log("[ALERT] $message");
         }
 
         return false;
@@ -129,7 +129,7 @@ class Log
     public static function emergency(string $message): bool
     {
         if (self::isLogLevelEnabled(LogLevelEnum::EMERGENCY)) {
-            return self::log($message);
+            return self::log("[EMERGENCY] $message");
         }
 
         return false;
