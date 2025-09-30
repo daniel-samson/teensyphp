@@ -12,8 +12,8 @@ class Database
         string $database,
         string $host = '',
         int $port = 0,
-        string $username = NULL,
-        string $password = NULL
+        ?string $username = null,
+        ?string $password = null
     ): Database
     {
         $dsn = self::dsn($engine, $database, $host, $port);
