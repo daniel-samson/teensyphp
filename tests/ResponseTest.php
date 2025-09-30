@@ -18,7 +18,7 @@ class ResponseTest extends TestCase
     public function test_render()
     {
         $expected = '{}';
-        render(200, $expected);
+        render(200, $expected, ['Content-Type' => 'application/json']);
         $this->expectOutputString($expected);
     }
 }

@@ -27,6 +27,21 @@ class RequestTest extends TestCase
         $this->assertEquals('', $actual);
     }
 
+    public function test_request_header_fallback_to_server()
+    {
+        // Test the fallback to $_SERVER when header exists in $_SERVER but not in getallheaders()
+        // This covers line 15 in request.php
+        $_SERVER['HTTP_CUSTOM_HEADER'] = 'test-value';
+
+        // Clear any headers that getallheaders might return for this key
+        // to force the fallback to $_SERVER
+        $actual = request_header('Custom-Header');
+        $this->assertEquals('test-value', $actual);
+
+        // Clean up
+        unset($_SERVER['HTTP_CUSTOM_HEADER']);
+    }
+
     public function test_accept()
     {
         $expected = 'plain/text';
