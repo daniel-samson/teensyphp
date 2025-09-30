@@ -33,6 +33,7 @@
   "scripts": {
     "test": "./vendor/bin/phpunit",
     "test-debug": "./vendor/bin/phpunit --debug",
-    "coverage": "./vendor/bin/phpunit --bootstrap vendor/autoload.php --coverage-text --stderr -- tests"
+    "coverage": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --bootstrap vendor/autoload.php --coverage-text --stderr -- tests",
+    "coverage-html": "XDEBUG_MODE=coverage ./vendor/bin/phpunit --bootstrap vendor/autoload.php --coverage-html coverage --stderr -- tests"
   }
 }

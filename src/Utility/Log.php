@@ -24,71 +24,122 @@ class Log
     /**
      * Log a message
      * @param string $message
-     * @return void
+     * @return bool true if logged, false if not logged
      */
-    public static function log(string $message)
+    public static function log(string $message) : bool
     {
         if (defined('PHPUNIT_COMPOSER_INSTALL') || defined('__PHPUNIT_PHAR__')) {
             // for testing purposes, do not log, as it will cause tests to be marked as risky
-            return;
+            return false;
         }
 
         error_log($message);
+        return true;
     }
 
-    public static function debug(string $message): void
+    /**
+     * Log a debug message
+     * @param string $message
+     * @return bool true if logged, false if not logged
+     */
+    public static function debug(string $message): bool
     {
         if (self::isLogLevelEnabled(LogLevelEnum::DEBUG)) {
-            self::log($message);
+            return self::log($message);
         }
+
+        return false;
     }
     
-    public static function info(string $message): void
+    /**
+     * Log an info message
+     * @param string $message
+     * @return bool true if logged, false if not logged
+     */
+    public static function info(string $message): bool
     {
         if (self::isLogLevelEnabled(LogLevelEnum::INFO)) {
-            self::log($message);
+            return self::log($message);
         }
+
+        return false;
     }
     
-    
-    public static function warning(string $message): void
+    /**
+     * Log a warning message
+     * @param string $message
+     * @return bool true if logged, false if not logged
+     */
+    public static function warning(string $message): bool
     {
         if (self::isLogLevelEnabled(LogLevelEnum::WARNING)) {
-            self::log($message);
+            return self::log($message);
         }
+
+        return false;
     }
     
-    
-    public static function error(string $message): void
+    /**
+     * Log an error message
+     * @param string $message
+     * @return bool true if logged, false if not logged
+     */
+    public static function error(string $message): bool
     {
         if (self::isLogLevelEnabled(LogLevelEnum::ERROR)) {
-            self::log($message);
+            return self::log($message);
         }
+
+        return false;
     }
     
-    
-    public static function critical(string $message): void
+    /**
+     * Log a critical message
+     * @param string $message
+     * @return bool true if logged, false if not logged
+     */
+    public static function critical(string $message): bool
     {
         if (self::isLogLevelEnabled(LogLevelEnum::CRITICAL)) {
-            self::log($message);
+            return self::log($message);
         }
+
+        return false;
     }
     
-    
-    public static function alert(string $message): void
+    /**
+     * Log an alert message
+     * @param string $message
+     * @return bool true if logged, false if not logged
+     */
+    public static function alert(string $message): bool
     {
         if (self::isLogLevelEnabled(LogLevelEnum::ALERT)) {
-            self::log($message);
+            return self::log($message);
         }
+
+        return false;
     }
     
-    public static function emergency(string $message): void
+    /**
+     * Log an emergency message
+     * @param string $message
+     * @return bool true if logged, false if not logged
+     */
+    public static function emergency(string $message): bool
     {
         if (self::isLogLevelEnabled(LogLevelEnum::EMERGENCY)) {
-            self::log($message);
+            return self::log($message);
         }
+
+        return false;
     }
 
+    /**
+     * Check if a log level is enabled
+     * @param LogLevelEnum $level
+     * @return bool true if enabled, false if not enabled
+     */
     public static function isLogLevelEnabled(LogLevelEnum $level): bool
     {
         if ($level === LogLevelEnum::NONE) {

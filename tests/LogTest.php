@@ -109,4 +109,73 @@ class LogTest extends TestCase
         $this->assertFalse(Log::isLogLevelEnabled(LogLevelEnum::NONE));
     }
     
+
+    public function test_log()
+    {
+        $this->assertFalse(Log::log('test'));
+    }
+
+    public function test_debug()
+    {
+        Log::setLevel(LogLevelEnum::NONE);
+        $this->assertFalse(Log::debug('test'));
+
+        Log::setLevel(LogLevelEnum::DEBUG);
+        $this->assertFalse(Log::debug('test'));
+    }
+    
+    public function test_info()
+    {
+        Log::setLevel(LogLevelEnum::NONE);
+        $this->assertFalse(Log::info('test'));
+
+        Log::setLevel(LogLevelEnum::INFO);
+        $this->assertFalse(Log::info('test'));
+    }
+    
+    
+    public function test_warning()
+    {
+        Log::setLevel(LogLevelEnum::NONE);
+        $this->assertFalse(Log::warning('test'));
+
+        Log::setLevel(LogLevelEnum::WARNING);
+        $this->assertFalse(Log::warning('test'));
+    }
+    
+    public function test_error()
+    {
+        Log::setLevel(LogLevelEnum::NONE);
+        $this->assertFalse(Log::error('test'));
+
+        Log::setLevel(LogLevelEnum::ERROR);
+        $this->assertFalse(Log::error('test'));
+    }
+
+    public function test_critical()
+    {
+        Log::setLevel(LogLevelEnum::NONE);
+        $this->assertFalse(Log::critical('test'));
+
+        Log::setLevel(LogLevelEnum::CRITICAL);
+        $this->assertFalse(Log::critical('test'));
+    }
+    
+    public function test_alert()
+    {
+        Log::setLevel(LogLevelEnum::NONE);
+        $this->assertFalse(Log::alert('test'));
+
+        Log::setLevel(LogLevelEnum::ALERT);
+        $this->assertFalse(Log::alert('test'));
+    }
+
+    public function test_emergency()
+    {
+        Log::setLevel(LogLevelEnum::NONE);
+        $this->assertFalse(Log::emergency('test'));
+
+        Log::setLevel(LogLevelEnum::EMERGENCY);
+        $this->assertFalse(Log::emergency('test'));
+    }
 }
