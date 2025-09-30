@@ -126,6 +126,23 @@ function router(callable $routes)
     ini_set('display_errors', 'Off');
     error_reporting(E_ALL);
 
+    function render_error(Throwable $e) {
+        if (accept(JSON_CONTENT)) {
+            if ($e instanceof Exception) {
+                render($e->getCode(), json_out(['message' => $e->getMessage()]));
+            } else {
+                render($e->getCode(), json_out(['error' => $e->getMessage()]));
+            }
+        } else {
+            $errorPage = app_root() . "/templates/pages/{$e->getCode()}.php";
+            if (file_exists($errorPage)) {
+                render($e->getCode(), template($errorPage, ['message' => $e->getMessage()]));
+            } else {
+                render($e->getCode(), template(app_root() . "/templates/pages/500.php", ['message' => $e->getMessage()]));
+            }
+        }
+    }
+
     try {
         call_user_func($routes);
 
@@ -139,19 +156,11 @@ function router(callable $routes)
     } catch (Exception $e) {
         error_log($e->getMessage());
         error_log($e->getTraceAsString());
-        if (accept(JSON_CONTENT)) {
-            render($e->getCode(), json_out(['error' => $e->getMessage()]));
-        } else {
-            render($e->getCode(), template(APP_ROOT . "/templates/pages/500.php", ['error' => $e->getMessage()]));
-        }
+        render_error($e);
     } catch (Error $e) {
         error_log($e->getMessage());
         error_log($e->getTraceAsString());
-        if (accept(JSON_CONTENT)) {
-            render($e->getCode(), json_out(['error' => $e->getMessage()]));
-        } else {
-            render($e->getCode(), template(APP_ROOT . "/templates/pages/500.php", ['error' => $e->getMessage()]));
-        }
+        render_error($e);
     }
 }
 
