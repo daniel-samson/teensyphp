@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . "/stop.php";
 
+use TeensyPHP\Utility\Log;
+
 /** HTTP methods */
 const GET = 'GET';
 const HEAD = 'HEAD';
@@ -117,6 +119,27 @@ function routerGroup($prefix, callable $routes): void
 }
 
 /**
+ * Render an error
+ * @param Throwable $e
+ * @return void
+ */
+function render_error(Throwable $e) {
+    if (accept(JSON_CONTENT)) {
+            render($e->getCode(), json_out(['error' => [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+            ]]));
+    } else {
+        $errorPage = app_root() . "/templates/pages/{$e->getCode()}.php";
+        if (file_exists($errorPage)) {
+            render($e->getCode(), template($errorPage, ['message' => $e->getMessage()]));
+        } else {
+            render($e->getCode(), template(app_root() . "/templates/pages/500.php", ['message' => $e->getMessage()]));
+        }
+    }
+}
+
+/**
  * runs routes
  * @param callable $routes - function that includes routes
  * @return void
@@ -124,24 +147,7 @@ function routerGroup($prefix, callable $routes): void
 function router(callable $routes)
 {
     ini_set('display_errors', 'Off');
-    error_reporting(E_ALL);
-
-    function render_error(Throwable $e) {
-        if (accept(JSON_CONTENT)) {
-            if ($e instanceof Exception) {
-                render($e->getCode(), json_out(['message' => $e->getMessage()]));
-            } else {
-                render($e->getCode(), json_out(['error' => $e->getMessage()]));
-            }
-        } else {
-            $errorPage = app_root() . "/templates/pages/{$e->getCode()}.php";
-            if (file_exists($errorPage)) {
-                render($e->getCode(), template($errorPage, ['message' => $e->getMessage()]));
-            } else {
-                render($e->getCode(), template(app_root() . "/templates/pages/500.php", ['message' => $e->getMessage()]));
-            }
-        }
-    }
+    error_reporting(0);
 
     try {
         call_user_func($routes);
@@ -154,12 +160,10 @@ function router(callable $routes)
         // throw when not routes can be found
         throw new \Error("Not Found", 404);
     } catch (Exception $e) {
-        error_log($e->getMessage());
-        error_log($e->getTraceAsString());
+        Log::log("{$e->getCode()}: {$e->getMessage()}".PHP_EOL.$e->getTraceAsString());
         render_error($e);
     } catch (Error $e) {
-        error_log($e->getMessage());
-        error_log($e->getTraceAsString());
+        Log::log("{$e->getCode()}: {$e->getMessage()}".PHP_EOL.$e->getTraceAsString());
         render_error($e);
     }
 }
