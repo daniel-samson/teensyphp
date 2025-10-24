@@ -21,7 +21,7 @@ Config::loadEnvFile(app_root() );
 try {
     BaseEntity::$DB = Database::connect(
         Config::get("DATABASE_ENGINE", "sqlite"),
-        Config::get("DATABASE_DATABASE", "teensyblog.sqlite"),
+        Config::get("DATABASE_DATABASE", __DIR__ . "/teensyblog.sqlite"),
         Config::get("DATABASE_HOST"),
         Config::get("DATABASE_PORT"),
         Config::get("DATABASE_USERNAME"),
