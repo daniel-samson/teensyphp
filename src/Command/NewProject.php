@@ -105,9 +105,9 @@ final class NewProject
         $vendor = "nobody";
         if ($this->commandExists("gh")) {
             exec("gh auth status", $output);
-            if (strpos($output[0], "Logged in") !== false) {
+            if (strpos(implode($output), "Logged in") !== false) {
                 exec("gh api user", $output);
-                $vendor = json_decode($output[0])->login;
+                $vendor = json_decode(implode($output))->login;
             }
         }
 
