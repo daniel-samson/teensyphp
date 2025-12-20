@@ -14,15 +14,21 @@ final class NewProject
      */
     public function __invoke($options, $arguments): void
     {
-        if (isset($options['help']) || isset($options['h']) || count($arguments) < 2) {
+        if (
+            isset($options["help"]) ||
+            isset($options["h"]) ||
+            count($arguments) < 2
+        ) {
             $this->displayHelp();
             stop();
         }
 
         $projectName = $arguments[1];
         // convert to snake case
-        $projectName = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', $projectName));
-        $projectName = preg_replace('/[^a-z0-9_]/', '', $projectName);
+        $projectName = strtolower(
+            preg_replace("/(?<!^)[A-Z]/", '_$0', $projectName),
+        );
+        $projectName = preg_replace("/[^a-z0-9_]/", "", $projectName);
         $projectDir = getcwd() . "/" . $projectName;
 
         if (file_exists($projectDir)) {
@@ -42,9 +48,9 @@ final class NewProject
      */
     private function displayHelp(): void
     {
-        echo "Usage: teensyphp new [options] project-name".PHP_EOL;
-        echo "Options:".PHP_EOL;
-        echo "  -h, --help\t Display this help message".PHP_EOL;
+        echo "Usage: teensyphp new [options] project-name" . PHP_EOL;
+        echo "Options:" . PHP_EOL;
+        echo "  -h, --help\t Display this help message" . PHP_EOL;
     }
 
     /**
@@ -53,8 +59,10 @@ final class NewProject
      * @param string $projectDir
      * @return void
      */
-    private function createProject(string $projectName, string $projectDir): void
-    {
+    private function createProject(
+        string $projectName,
+        string $projectDir,
+    ): void {
         // copy templates/new-teensyphp-project to projectDir
         $sourceDir = __DIR__ . "/../../templates/new-teensyphp-project";
         $targetDir = $projectDir;
@@ -64,21 +72,18 @@ final class NewProject
         }
 
         // use os copy command to copy all files including hidden files
-        $uname = strtoupper(php_uname('s'));
-        if (substr($uname, 0, 3) === 'WIN') {
+        $uname = strtoupper(php_uname("s"));
+        if (substr($uname, 0, 3) === "WIN") {
             exec("xcopy /E /I /Y " . $sourceDir . " " . $targetDir);
             return;
-        } elseif (substr($uname, 0, 3) === 'DAR') {
+        } elseif (substr($uname, 0, 3) === "DAR") {
             // MacOS
             exec("cp -r " . $sourceDir . "/* " . $targetDir);
         } else {
             exec("cp -r " . $sourceDir . "/* " . $targetDir);
         }
 
-        $hiddenFiles = [
-            ".env.example",
-            ".gitignore"
-        ];
+        $hiddenFiles = [".env.example", ".gitignore"];
 
         foreach ($hiddenFiles as $hiddenFile) {
             $sourceFile = $sourceDir . "/" . $hiddenFile;
@@ -88,11 +93,20 @@ final class NewProject
             }
         }
 
-        $email = 'nobody@example.com';
-        $author = 'nobody';
+        $email = "nobody@example.com";
+        $author = "nobody";
         if ($this->commandExists("git")) {
             exec("git config user.email", $email);
             exec("git config user.name", $author);
+        }
+
+        $vendor = "nobody";
+        if ($this->commandExists("gh")) {
+            exec("gh auth status", $output);
+            if (strpos($output[0], "Logged in") !== false) {
+                exec("gh api user", $output);
+                $vendor = json_decode($output[0])->login;
+            }
         }
 
         $composerJsonPath = $targetDir . "/composer.json";
@@ -100,15 +114,15 @@ final class NewProject
         // replace placeholders in composer.json
         $composerJson = template($targetDir . "/composer.json.php", [
             "project_dirname" => $projectName,
-            "author" => "Daniel Samson",
-            "email" => "12231216+daniel-samson@users.noreply.github.com",
-            "vender" => "daniel-samson",
+            "author" => $author,
+            "email" => $email,
+            "vendor" => $vendor,
         ]);
         file_put_contents($composerJsonPath, $composerJson);
         unlink($composerJsonPath . ".php");
 
         if ($this->commandExists("git")) {
-            echo "Initializing git repository...".PHP_EOL;
+            echo "Initializing git repository..." . PHP_EOL;
             // store cwd
             $cwd = getcwd();
             // init git repo inside $targetDir
@@ -135,18 +149,18 @@ final class NewProject
      * @param string $command
      * @return bool
      */
-    private function commandExists (string $command): bool
+    private function commandExists(string $command): bool
     {
-        $whereIsCommand = (PHP_OS == 'WINNT') ? 'where' : 'which';
+        $whereIsCommand = PHP_OS == "WINNT" ? "where" : "which";
 
         $process = proc_open(
             "$whereIsCommand $command",
-            array(
-                0 => array("pipe", "r"), //STDIN
-                1 => array("pipe", "w"), //STDOUT
-                2 => array("pipe", "w"), //STDERR
-            ),
-            $pipes
+            [
+                0 => ["pipe", "r"], //STDIN
+                1 => ["pipe", "w"], //STDOUT
+                2 => ["pipe", "w"], //STDERR
+            ],
+            $pipes,
         );
         if ($process !== false) {
             $stdout = stream_get_contents($pipes[1]);
@@ -155,7 +169,7 @@ final class NewProject
             fclose($pipes[2]);
             proc_close($process);
 
-            return $stdout != '';
+            return $stdout != "";
         }
 
         return false;
@@ -168,13 +182,15 @@ final class NewProject
      */
     private function displayFinishedMessage(string $projectName): void
     {
-        echo "Project created successfully".PHP_EOL;
-        echo "To start the project, run the following command:".PHP_EOL;
-        echo "1. run `cd $projectName`".PHP_EOL;
-        echo "2. run `composer install`".PHP_EOL;
-        echo "3. Copy .env.example to .env".PHP_EOL;
-        echo "configure your webserver to point to `public` directory".PHP_EOL;
-        echo "4. open your browser and visit http://localhost:<port number>/".PHP_EOL;
-        echo "Have fun!".PHP_EOL;
+        echo "Project created successfully" . PHP_EOL;
+        echo "To start the project, run the following command:" . PHP_EOL;
+        echo "1. run `cd $projectName`" . PHP_EOL;
+        echo "2. run `composer install`" . PHP_EOL;
+        echo "3. Copy .env.example to .env" . PHP_EOL;
+        echo "configure your webserver to point to `public` directory" .
+            PHP_EOL;
+        echo "4. open your browser and visit http://localhost:<port number>/" .
+            PHP_EOL;
+        echo "Have fun!" . PHP_EOL;
     }
 }
