@@ -1,12 +1,12 @@
 {
-    "name": "<?=$vender?>/<?=$project_dirname?>",
+    "name": "<?= $vendor ?>/<?= $project_dirname ?>",
     "description": "A new TeensyPHP Project",
     "minimum-stability": "stable",
     "license": "MIT",
     "authors": [
         {
-            "name": "<?=$author?>",
-            "email": "<?=$email?>"
+            "name": "<?= $author ?>",
+            "email": "<?= $email ?>"
         }
     ],
     "require": {
