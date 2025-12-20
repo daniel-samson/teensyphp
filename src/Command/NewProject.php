@@ -107,7 +107,6 @@ final class NewProject
             exec("gh auth status", $output);
             if (strpos(implode($output), "Logged in") !== false) {
                 exec("gh api user", $outputUser);
-                print_r($outputUser);
                 $userJson = json_decode(implode($outputUser));
                 if ($userJson !== null) {
                     $vendor = $userJson->login;
