@@ -96,8 +96,10 @@ final class NewProject
         $email = "nobody@example.com";
         $author = "nobody";
         if ($this->commandExists("git")) {
-            exec("git config user.email", $email);
-            exec("git config user.name", $author);
+            exec("git config user.email", $emailArray);
+            $email = $emailArray[0];
+            exec("git config user.name", $authorArray);
+            $author = $authorArray[0];
         }
 
         $vendor = "nobody";
