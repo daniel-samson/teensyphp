@@ -1,6 +1,11 @@
-# Teensy PHP
-
-Teensy PHP is a micro web framework for rapidly creating REST APIs and hypermedia.
+<div align="center">
+  <a href="https://github.com/daniel-samson/cryptobro">
+    <img src="resources/teensy-php-logo.svg" alt="Logo" width="auto" height="88">
+  </a>
+  <p>
+    <strong>Teensy PHP is a micro web framework for rapidly creating REST APIs and hypermedia.</strong>
+  </p>
+</div>
 
 ## Project Status
 [![Build](https://github.com/daniel-samson/teensyphp/actions/workflows/php.yml/badge.svg)](https://github.com/daniel-samson/teensyphp/actions/workflows/php.yml)
