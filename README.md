@@ -1,5 +1,5 @@
 <div align="center">
-  <a href="https://github.com/daniel-samson/cryptobro">
+  <a href="https://github.com/daniel-samson/teensyphp">
     <img src="resources/teensy-php-logo.svg" alt="Logo" width="auto" height="88">
   </a>
   <p>
