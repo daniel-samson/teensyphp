@@ -35,7 +35,7 @@
   margin-bottom: 1.5rem;
   color: #ffffff;
   -webkit-text-stroke: 1.5px #a8d8ff;
-  animation: strokeShift 15s ease-in-out infinite;
+  animation: strokeShift 15s steps(1) infinite;
 }
 
 @keyframes strokeShift {
