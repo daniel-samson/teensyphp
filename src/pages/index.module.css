@@ -52,6 +52,10 @@
 }
 
 @media screen and (max-width: 620px) {
+  .heroTagline {
+    -webkit-text-stroke: 0;
+  }
+
   .desktopTagline {
     display: none;
   }
