@@ -43,6 +43,24 @@
   }
 }
 
+.desktopTagline {
+  display: inline;
+}
+
+.mobileTagline {
+  display: none;
+}
+
+@media screen and (max-width: 480px) {
+  .desktopTagline {
+    display: none;
+  }
+
+  .mobileTagline {
+    display: inline;
+  }
+}
+
 .buttons {
   display: flex;
   align-items: center;

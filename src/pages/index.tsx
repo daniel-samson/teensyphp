@@ -13,7 +13,10 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero', styles.heroBanner)}>
       <div className={styles.heroContent}>
-        <p className={styles.heroTagline}>{siteConfig.tagline}</p>
+        <p className={styles.heroTagline}>
+          <span className={styles.desktopTagline}>{siteConfig.tagline}</span>
+          <span className={styles.mobileTagline}>PHP micro web framework</span>
+        </p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
