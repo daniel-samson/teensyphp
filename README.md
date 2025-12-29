@@ -120,7 +120,11 @@ composer global update
 
 ## Background
 
-This project was an exploration of Object Oriented Programming vs Procedural / Structure Programming. At the time (2012), composer autoloading only worked for classes. I asked the question "What if functions were first class like they are in JS/Haskel?". At the time, classes seem to take up more overhead eg. more memory and cpu time. However, functions didn't seem to have this penalty. This was partly to do with how the autoloader worked (which improved over time). I also was wanting to change how projects that were OO worked. I didn't like facades. I liked having simple higher order functions that i could replace with my own implementations. TeensyPHP explored what it would be like to just use functions. however, as it grew, I needed to manage database connections. So i introduced entities, a environment config manager and a database manager. 
+This project was an exploration of Object Oriented Programming vs Procedural / Structure Programming. At the time (2012), composer autoloading only worked for classes. 
+
+I asked the question "What if functions were first class like they are in JS/Haskel?". At the time, classes seem to take up more overhead eg. more memory and cpu time. However, functions didn't seem to have this penalty. This was partly to do with how the autoloader worked (which improved over time). I also was wanting to change how projects that were OO worked. I didn't like facades. I liked having simple higher order functions that i could replace with my own implementations.
+
+TeensyPHP explored what it would be like to just use functions. however, as it grew, I needed to manage database connections. So i introduced entities, a environment config manager and a database manager. 
 
 Everything in TeensyPHP is completely replaceable!
 
