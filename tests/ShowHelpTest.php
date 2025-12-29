@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use TeensyPHP\Command\ShowHelp;
+use TeensyPHP\OldCommand\ShowHelp;
 
 require_once __DIR__ . '/../src/stop.php';
 

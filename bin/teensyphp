@@ -1,41 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-if (file_exists(__DIR__ . "/../vendor/autoload.php")) {
-    require_once __DIR__ . "/../vendor/autoload.php";
-} else {
-    $globalAutoload = trim(shell_exec('composer global config home')) . '/vendor/autoload.php';
-    if (file_exists($globalAutoload)) {
-        require $globalAutoload;
-    }
-}
+/* separated to make debugging easier on Windows */
+require_once "console.php";
 
-// get command line arguments
-// Script example.php
-$shortopts  = "-h";
-//$shortopts .= "n:";  // Required value
-//$shortopts .= "v::"; // Optional value
-//$shortopts .= "abc"; // These options do not accept values
-
-//$longopts  = array(
-//    "required:",     // Required value
-//    "optional::",    // Optional value
-//    "option",        // No value
-//);
-$longopts  = array(
-    "help",          // No value
-);
-
-$rest_index = null;
-$options = getopt($shortopts, $longopts, $rest_index);
-$arguments = array_slice($argv, $rest_index);
-
-if (isset($options['help']) || isset($options['h']) || count($arguments) === 0) {
-    $command = new TeensyPHP\Command\ShowHelp();
-    $command();
-}
-
-if (isset($rest_index)) {
-    $command = new TeensyPHP\Command\NewProject();
-    $command($options, $arguments);
-}
