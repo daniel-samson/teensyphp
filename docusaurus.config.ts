@@ -91,9 +91,8 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'TeensyPHP',
       logo: {
-        alt: 'TeensyPHP Logo',
+        alt: 'TeensyPHP',
         src: 'img/logo.svg',
       },
       items: [
