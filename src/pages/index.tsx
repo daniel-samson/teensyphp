@@ -13,7 +13,7 @@ function HomepageHeader() {
   return (
     <header className={clsx('hero', styles.heroBanner)}>
       <div className={styles.heroContent}>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <p className={styles.heroTagline}>{siteConfig.tagline}</p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"

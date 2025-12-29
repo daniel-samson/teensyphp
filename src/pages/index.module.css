@@ -29,6 +29,44 @@
   width: 100%;
 }
 
+.heroTagline {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(
+    90deg,
+    #ffffff,
+    #a8d8ff,
+    #ffffff,
+    #ffd6a8,
+    #ffffff
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradientShift 6s ease-in-out infinite;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .heroTagline {
+    font-size: 1.25rem;
+  }
+}
+
 .buttons {
   display: flex;
   align-items: center;
