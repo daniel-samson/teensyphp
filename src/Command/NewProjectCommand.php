@@ -2,9 +2,11 @@
 
 namespace TeensyPHP\Command;
 
+use Hoa\Stream\Test\Unit\IStream\Out;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(
     name: 'new',
@@ -14,7 +16,7 @@ use Symfony\Component\Console\Command\Command;
 )]
 class NewProjectCommand
 {
-    public function __invoke(#[Argument('Name of the project')]string $projectName): int
+    public function __invoke(OutputInterface $output, #[Argument('Name of the project')]string $projectName): int
     {
         // convert to snake case
         $projectName = strtolower(
@@ -24,12 +26,12 @@ class NewProjectCommand
         $projectDir = getcwd() . '/' . $projectName;
 
         if (file_exists($projectDir)) {
-            echo 'Project already exists\n';
+            $output->writeln( '<fg=red>Project already exists</>');;
             return Command::FAILURE;
         }
 
-        $this->createProject($projectName, $projectDir);
-        echo 'Project created successfully\n';
+        $this->createProject($output, $projectName, $projectDir);
+        $output->writeln('<fg=green>Project created successfully</>');
 
         return Command::SUCCESS;
     }
@@ -41,6 +43,7 @@ class NewProjectCommand
      * @return void
      */
     private function createProject(
+        OutputInterface $output,
         string $projectName,
         string $projectDir,
     ): void {
@@ -55,13 +58,12 @@ class NewProjectCommand
         // use os copy command to copy all files including hidden files
         $uname = strtoupper(php_uname('s'));
         if (substr($uname, 0, 3) === 'WIN') {
-            $this->exec('xcopy /E /I /Y "' . $sourceDir . '" "' . $targetDir. '"');
-            return;
+            exec('xcopy /E /I /Y "' . $sourceDir . '" "' . $targetDir. '"');
         } elseif (substr($uname, 0, 3) === 'DAR') {
             // MacOS
-            $this->exec('cp -r ' . $sourceDir . '/* ' . $targetDir);
+            exec('cp -r ' . $sourceDir . '/* ' . $targetDir);
         } else {
-            $this->exec('cp -r ' . $sourceDir . '/* ' . $targetDir);
+            exec('cp -r ' . $sourceDir . '/* ' . $targetDir);
         }
 
         $hiddenFiles = ['.env.example', '.gitignore'];
@@ -77,17 +79,27 @@ class NewProjectCommand
         $email = 'nobody@example.com';
         $author = 'nobody';
         if ($this->commandExists('git')) {
-            $this->exec('git config user.email', $emailArray);
+            $output->writeln('found git');
+
+            $emailArray = [];
+            exec('git config user.email', $emailArray);
             $email = $emailArray[0];
-            $this->exec('git config user.name', $authorArray);
+            if (!empty($email)) $output->writeln('found email: ' . $email);
+
+            $authorArray = [];
+            exec('git config user.name', $authorArray);
             $author = $authorArray[0];
+            if (!empty($author)) $output->writeln('found author: ' . $author);
         }
 
         $vendor = 'nobody';
         if ($this->commandExists('gh')) {
-            $this->exec('gh auth status', $output);
+            $output->writeln('found gh');
+            $output->writeln('fetching gh username for package name');
+            exec('gh auth status', $output);
             if (strpos(implode($output), 'Logged in') !== false) {
-                $this->exec('gh api user', $outputUser);
+                $outputUser = [];
+                exec('gh api user', $outputUser);
                 $userJson = json_decode(implode($outputUser));
                 if ($userJson !== null) {
                     $vendor = $userJson->login;
@@ -108,25 +120,25 @@ class NewProjectCommand
         unlink($composerJsonPath . '.php');
 
         if ($this->commandExists('git')) {
-            echo 'Initializing git repository...' . PHP_EOL;
+            $output->writeln('Initializing git repository...');
             // store cwd
             $cwd = getcwd();
             // init git repo inside $targetDir
             chdir($targetDir);
-            $this->exec('git init');
-            $this->exec('git add -A');
-            $this->exec('git branch -M main');
-            $this->exec('git commit -m \'Initial commit\'');
+            exec('git init');
+            exec('git add -A');
+            exec('git branch -M main');
+            exec('git commit -m \'Initial commit\'');
             chdir($cwd);
         }
 
         // run composer install
         $cwd = getcwd();
         chdir($targetDir);
-        $this->exec('composer install');
+        exec('composer install');
         chdir($cwd);
 
-        $this->displayFinishedMessage($projectName);
+        $this->displayFinishedMessage($output, $projectName);
         stop();
     }
 
@@ -138,7 +150,6 @@ class NewProjectCommand
     private function commandExists(string $command): bool
     {
         $whereIsCommand = PHP_OS == 'WINNT' ? 'where' : 'which';
-        print_r($whereIsCommand);
 
         $process = proc_open(
             '$whereIsCommand $command',
@@ -167,25 +178,18 @@ class NewProjectCommand
      * @param string $projectName
      * @return void
      */
-    private function displayFinishedMessage(string $projectName): void
+    private function displayFinishedMessage(OutputInterface $output, string $projectName): void
     {
-        echo 'Project created successfully' . PHP_EOL;
-        echo 'To start the project, run the following command:' . PHP_EOL;
-        echo '1. run `cd $projectName`' . PHP_EOL;
-        echo '2. run `composer install`' . PHP_EOL;
-        echo '3. Copy .env.example to .env' . PHP_EOL;
-        echo 'configure your webserver to point to `public` directory' .
-            PHP_EOL;
-        echo '4. open your browser and visit http://localhost:<port number>/' .
-            PHP_EOL;
-        echo 'Have fun!' . PHP_EOL;
-    }
-
-    private function exec(string $command): false|string {
-//        if (strtolower(getenv('LOG_LEVEL') ?? '') === 'debug') {
-            echo $command . PHP_EOL;
-//        }
-        return exec($command);
+        $output->writeln('');
+        $output->writeln('<fg=green>Project ' . $projectName . ' has been created.</>');
+        $output->writeln('<fg=cyan>To start the project, run the following command:</>');
+        $output->writeln('<fg=cyan>`1. run `cd ' . $projectName .'`</>');
+        $output->writeln('<fg=cyan>`2. run `composer dev``</>');
+        $output->writeln('');
+        $output->writeln('<fg=cyan>Open your browser and visit http://localhost:8000/</>');
+        $output->writeln('');
+        $output->writeln('<fg=yellow>Remember: Edit database details in .env and restart `composer dev`</>');
+        $output->writeln('<fg=yellow>Note: Configure your webserver to point to `public` directory</>');
     }
 }
 

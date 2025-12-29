@@ -9,11 +9,13 @@ if (file_exists(__DIR__ . "/../vendor/autoload.php")) {
 }
 
 use Symfony\Component\Console\Application;
+use TeensyPHP\Command\MakeCommand;
 use TeensyPHP\Command\NewProjectCommand;
 
 $application = new Application();
 
 // ... register commands
 $application->addCommand(new NewProjectCommand());
+$application->addCommand(new MakeCommand());
 
 $application->run();
