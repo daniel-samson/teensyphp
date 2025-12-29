@@ -9,14 +9,9 @@ import Heading from '@theme/Heading';
 import styles from './index.module.css';
 
 function HomepageHeader() {
-  const {siteConfig} = useDocusaurusContext();
   return (
     <header className={clsx('hero', styles.heroBanner)}>
       <div className={styles.heroContent}>
-        <p className={styles.heroTagline}>
-          <span className={styles.desktopTagline}>{siteConfig.tagline}</span>
-          <span className={styles.mobileTagline}>PHP micro web framework</span>
-        </p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
@@ -37,6 +32,11 @@ export default function Home(): ReactNode {
       description="A micro web framework for rapidly creating REST APIs and hypermedia applications">
       <HomepageHeader />
       <main>
+        <div className={styles.taglineSection}>
+          <Heading as="h2" className={styles.taglineHeading}>
+            {siteConfig.tagline}
+          </Heading>
+        </div>
         <HomepageFeatures />
       </main>
     </Layout>
