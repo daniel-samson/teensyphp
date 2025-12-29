@@ -34,19 +34,16 @@
   font-weight: 700;
   margin-bottom: 1.5rem;
   color: #000000;
-  -webkit-text-stroke: 2px #a8d8ff;
+  -webkit-text-stroke: 2px #000000;
   animation: strokeShift 15s steps(1) infinite;
 }
 
 @keyframes strokeShift {
   0%, 100% {
-    -webkit-text-stroke-color: #a8d8ff;
+    -webkit-text-stroke-color: #000000;
   }
-  33% {
-    -webkit-text-stroke-color: #ffd6a8;
-  }
-  66% {
-    -webkit-text-stroke-color: #d8a8ff;
+  50% {
+    -webkit-text-stroke-color: #ffffff;
   }
 }
 
