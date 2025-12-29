@@ -7,20 +7,25 @@ sidebar_position: 2
 ## Quick Start
 
 ```php
+// bootstrap.php
 use TeensyPHP\Utility\Config;
 use TeensyPHP\Utility\Database;
+use App\Entity\BaseEntity;
 
 // Initialize database connection
 Database::connect(
-    Config::get('DATABASE_ENGINE', 'sqlite'),
-    Config::get('DATABASE_DATABASE', '../app.sqlite'),
-    Config::get('DATABASE_HOST'),
-    Config::get('DATABASE_PORT'),
-    Config::get('DATABASE_USERNAME'),
-    Config::get('DATABASE_PASSWORD')
+    Config::get("DATABASE_ENGINE", "sqlite"),
+    Config::get("DATABASE_DATABASE", __DIR__ . "/teensydb.sqlite"),
+    Config::get("DATABASE_HOST"),
+    Config::get("DATABASE_PORT"),
+    Config::get("DATABASE_USERNAME"),
+    Config::get("DATABASE_PASSWORD")
 );
 
-// Use the connection
+// Make connection available to entities
+BaseEntity::$DB = Database::connection();
+
+// Use the connection directly
 $stmt = Database::connection()->prepare('SELECT * FROM users WHERE id = ?');
 $stmt->execute([1]);
 $user = $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -108,25 +113,18 @@ try {
 
 ## Using with Routes
 
-```php
-router(function() {
-    // Initialize database once at the start
-    Database::connect(
-        Config::get('DATABASE_ENGINE', 'sqlite'),
-        Config::get('DATABASE_DATABASE', '../app.sqlite'),
-        Config::get('DATABASE_HOST'),
-        Config::get('DATABASE_PORT'),
-        Config::get('DATABASE_USERNAME'),
-        Config::get('DATABASE_PASSWORD')
-    );
+Database is initialized in `bootstrap.php`, so it's available in all routes:
 
-    route(method(GET), url_path('/api/users'), function() {
+```php
+// routes/api.php
+routerGroup("/api", function() {
+    route(method(GET), url_path("/users"), function() {
         $stmt = Database::connection()->prepare('SELECT * FROM users');
         $stmt->execute();
         render(200, json_out($stmt->fetchAll(\PDO::FETCH_ASSOC)));
     });
 
-    route(method(GET), url_path_params('/api/users/:id'), function() {
+    route(method(GET), url_path_params("/users/:id"), function() {
         $stmt = Database::connection()->prepare('SELECT * FROM users WHERE id = ?');
         $stmt->execute([$_GET[':id']]);
         $user = $stmt->fetch(\PDO::FETCH_ASSOC);
@@ -140,6 +138,8 @@ router(function() {
     });
 });
 ```
+
+For most use cases, prefer using [Entities](/docs/utilities/entities) instead of raw queries.
 
 ## How It Works
 

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 5
+sidebar_position: 6
 ---
 
 # Templating
@@ -7,21 +7,25 @@ sidebar_position: 5
 ## Basic Template
 
 ```php
-// templates/greeting.php
+// templates/pages/greeting.php
 <h1>Hello, <?= htmlspecialchars($name) ?>!</h1>
 <p>Welcome to our site.</p>
 ```
 
 ```php
-// Using the template
-router(function() {
-    route(method(GET), url_path("/"), function() {
-        $html = template(__DIR__ . '/templates/greeting.php', [
+// App/Actions/Home/DisplayGreeting.php
+namespace App\Actions\Home;
+
+class DisplayGreeting
+{
+    public function __invoke()
+    {
+        $html = template(app_root() . '/templates/pages/greeting.php', [
             'name' => 'Alice'
         ]);
         render(200, html_out($html));
-    });
-});
+    }
+}
 ```
 
 **Output:**
@@ -33,14 +37,14 @@ router(function() {
 ## Page Layout with Components
 
 ```php
-// templates/components/header.php
+// templates/layouts/page_beginning.php
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($title) ?> - My Site</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/base.css">
 </head>
 <body>
     <nav>
@@ -52,7 +56,7 @@ router(function() {
 ```
 
 ```php
-// templates/components/footer.php
+// templates/layouts/page_end.php
     </main>
     <footer>
         <p>&copy; <?= date('Y') ?> My Site</p>
@@ -62,28 +66,32 @@ router(function() {
 ```
 
 ```php
-// templates/home.php
-<?= template(__DIR__ . '/components/header.php', ['title' => 'Home']) ?>
+// templates/pages/home.php
+<?= template(app_root() . "/templates/layouts/page_beginning.php", ["title" => "Home"]); ?>
 
 <h1>Welcome Home</h1>
-<p>This is the homepage content.</p>
+<p>This is a TeensyPHP project.</p>
 
-<?= template(__DIR__ . '/components/footer.php', []) ?>
+<?= template(app_root() . "/templates/layouts/page_end.php", []); ?>
 ```
 
 ```php
-// Using the page template
-router(function() {
-    route(method(GET), url_path("/"), function() {
-        render(200, html_out(template(__DIR__ . '/templates/home.php', [])));
-    });
-});
+// App/Actions/Home/DisplayHome.php
+namespace App\Actions\Home;
+
+class DisplayHome
+{
+    public function __invoke()
+    {
+        render(200, html_out(template(app_root() . "/templates/pages/home.php", [])));
+    }
+}
 ```
 
 ## Dynamic Lists
 
 ```php
-// templates/user-list.php
+// templates/components/user-list.php
 <ul class="users">
 <?php foreach ($users as $user): ?>
     <li>
@@ -95,57 +103,116 @@ router(function() {
 ```
 
 ```php
-router(function() {
-    route(method(GET), url_path("/users"), function() {
-        $users = [
-            ['name' => 'Alice', 'email' => 'alice@example.com'],
-            ['name' => 'Bob', 'email' => 'bob@example.com'],
-        ];
+// templates/pages/users.php
+<?= template(app_root() . "/templates/layouts/page_beginning.php", ["title" => "Users"]); ?>
 
-        $html = template(__DIR__ . '/templates/user-list.php', [
-            'users' => $users
-        ]);
-        render(200, html_out($html));
-    });
-});
+<h1>Users</h1>
+<?= template(app_root() . "/templates/components/user-list.php", ["users" => $users]); ?>
+
+<?= template(app_root() . "/templates/layouts/page_end.php", []); ?>
 ```
 
-## JSON Templates
-
 ```php
-// templates/api-error.php
+// App/Actions/User/ListUsers.php
+namespace App\Actions\User;
+
+use App\Entity\User;
+
+class ListUsers
 {
-    "error": {
-        "code": <?= json_encode($code) ?>,
-        "message": <?= json_encode($message) ?>,
-        "details": <?= json_encode($details) ?>
+    public function __invoke()
+    {
+        $users = User::findAll();
+        $usersArray = array_map(fn($u) => $u->toArray(), $users);
+
+        $html = template(app_root() . '/templates/pages/users.php', [
+            'users' => $usersArray
+        ]);
+        render(200, html_out($html));
     }
 }
 ```
 
+## Reusable Components
+
 ```php
-router(function() {
-    route(method(GET), url_path("/api/resource"), function() {
-        try {
-            // Something that might fail
-            throw new Exception("Resource not found");
-        } catch (Exception $e) {
-            $json = template(__DIR__ . '/templates/api-error.php', [
-                'code' => 404,
-                'message' => $e->getMessage(),
-                'details' => null
-            ]);
-            render(404, content(JSON_CONTENT, $json));
-        }
-    });
-});
+// templates/components/table.php
+<table>
+    <thead>
+        <tr>
+            <?php foreach ($headers as $header): ?>
+                <th><?= htmlspecialchars($header) ?></th>
+            <?php endforeach; ?>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($rows as $row): ?>
+            <tr>
+                <?php foreach ($row as $cell): ?>
+                    <td><?= htmlspecialchars($cell) ?></td>
+                <?php endforeach; ?>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+```
+
+```php
+// templates/pages/table-page.php
+<?= template(app_root() . "/templates/layouts/page_beginning.php", ["title" => "Data"]); ?>
+
+<h1>Data Table</h1>
+<?= template(app_root() . "/templates/components/table.php", [
+    "headers" => $headers,
+    "rows" => $rows
+]); ?>
+
+<?= template(app_root() . "/templates/layouts/page_end.php", []); ?>
+```
+
+## Error Pages
+
+```php
+// templates/pages/404.php
+<?= template(app_root() . "/templates/layouts/page_beginning.php", ["title" => "Not Found"]); ?>
+
+<h1>404 - Page Not Found</h1>
+<p>The page you requested could not be found.</p>
+<a href="/">Return Home</a>
+
+<?= template(app_root() . "/templates/layouts/page_end.php", []); ?>
+```
+
+```php
+// templates/pages/500.php
+<?= template(app_root() . "/templates/layouts/page_beginning.php", ["title" => "Error"]); ?>
+
+<h1>500 - Internal Server Error</h1>
+<p>Something went wrong. Please try again later.</p>
+<a href="/">Return Home</a>
+
+<?= template(app_root() . "/templates/layouts/page_end.php", []); ?>
+```
+
+```php
+// functions.php - exception handler uses these templates
+function handle_exception(Throwable $exception): void
+{
+    if ($exception->getCode() === 404) {
+        http_response_code(404);
+        echo template(app_root() . "/templates/pages/404.php", []);
+    } else {
+        http_response_code(500);
+        echo template(app_root() . "/templates/pages/500.php", []);
+    }
+}
 ```
 
 ## Conditional Content
 
 ```php
-// templates/dashboard.php
-<?= template(__DIR__ . '/components/header.php', ['title' => 'Dashboard']) ?>
+// templates/pages/dashboard.php
+<?= template(app_root() . "/templates/layouts/page_beginning.php", ["title" => "Dashboard"]); ?>
 
 <?php if ($isAdmin): ?>
     <div class="admin-panel">
@@ -168,7 +235,7 @@ router(function() {
     <?php endif; ?>
 </div>
 
-<?= template(__DIR__ . '/components/footer.php', []) ?>
+<?= template(app_root() . "/templates/layouts/page_end.php", []); ?>
 ```
 
 ## How Templating Works
@@ -200,12 +267,28 @@ Renders a PHP template file with the given variables.
 
 **Returns:** The rendered template as a string.
 
+### app_root()
+
+```php
+app_root(): string
+```
+
+Returns the application root directory. Use this to build paths to templates.
+
+## Template Directory Structure
+
+| Directory | Purpose |
+|-----------|---------|
+| `templates/layouts/` | Page wrappers (header/footer) |
+| `templates/pages/` | Full page templates |
+| `templates/components/` | Reusable UI components |
+
 ## Best Practices
 
 | Practice | Description |
 |----------|-------------|
 | Use `htmlspecialchars()` | Always escape user data in HTML templates |
 | Use `json_encode()` | Escape data in JSON templates |
-| Absolute paths | Use `__DIR__` for reliable path resolution |
+| Use `app_root()` | Use for reliable path resolution |
 | Component structure | Split reusable parts into separate files |
 | Keep logic minimal | Templates should focus on presentation |

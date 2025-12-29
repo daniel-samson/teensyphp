@@ -23,14 +23,14 @@ if ($debug === 'true') {
 ## Loading .env Files
 
 ```php
-// public/index.php
+// bootstrap.php
 use TeensyPHP\Utility\Config;
 
-// Define app root (parent of public/)
-define('APP_ROOT', dirname(__DIR__));
+require_once __DIR__ . "/vendor/autoload.php";
+require_once __DIR__ . "/globals.php";  // Defines APP_ROOT
 
 // Load environment variables from .env file
-Config::loadEnvFile(APP_ROOT);
+Config::loadEnvFile(app_root());
 
 // Now use Config::get() anywhere in your app
 $apiKey = Config::get('API_KEY');

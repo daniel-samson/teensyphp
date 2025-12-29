@@ -31,8 +31,12 @@ Your app is now running:
 // 1. Install the package
 // composer require daniel-samson/teensyphp
 
-// 2. Add the router to your entry point (index.php)
+// 2. Create bootstrap.php
+require_once __DIR__ . "/vendor/autoload.php";
+
 router(function() {
+    use_request_uri();
+
     route(method(GET), url_path("/"), function() {
         json_out(["hello" => "world"]);
     });
@@ -40,12 +44,10 @@ router(function() {
     route(method(GET), url_path("/users"), function() {
         json_out(["users" => ["Alice", "Bob", "Charlie"]]);
     });
-
-    route(method(POST), url_path("/users"), function() {
-        $data = json_in();
-        json_out(["created" => $data]);
-    });
 });
+
+// 3. Create public/index.php
+// <?php require_once dirname(__DIR__) . "/bootstrap.php";
 ```
 
 ## What is TeensyPHP?
@@ -69,10 +71,13 @@ TeensyPHP is a micro web framework for rapidly creating REST APIs and hypermedia
 
 ## Configuration
 
-Edit the `.env` file in your project root to configure your database and other settings:
+Copy `.env.example` to `.env` and configure your settings:
 
 ```ini
-# Database Configuration
+# Logging
+LOG_LEVEL=debug
+
+# MySQL Database
 DATABASE_ENGINE=mysql
 DATABASE_DATABASE=myapp
 DATABASE_USERNAME=root
@@ -80,10 +85,7 @@ DATABASE_PASSWORD=secret
 DATABASE_HOST=127.0.0.1
 DATABASE_PORT=3306
 
-# For SQLite (path relative to public/)
+# SQLite Database (alternative)
 # DATABASE_ENGINE=sqlite
-# DATABASE_DATABASE=../myapp.sqlite
-
-# Logging
-LOG_LEVEL=debug
+# DATABASE_DATABASE=../teensydb.sqlite
 ```

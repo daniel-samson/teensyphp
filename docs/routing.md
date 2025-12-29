@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Routing
@@ -7,103 +7,104 @@ sidebar_position: 2
 ## Basic Routes
 
 ```php
-router(function() {
-    // GET request to /
+// routes/web.php
+routerGroup("/", function() {
     route(method(GET), url_path("/"), function() {
-        json_out(["message" => "Welcome!"]);
+        render(200, html_out(template(app_root() . "/templates/pages/home.php", [])));
     });
 
-    // POST request to /users
+    route(method(GET), url_path("/about"), function() {
+        render(200, html_out(template(app_root() . "/templates/pages/about.php", [])));
+    });
+});
+
+// routes/api.php
+routerGroup("/api", function() {
+    route(method(GET), url_path("/"), function() {
+        render(200, json_out(["message" => "Hello World!"]));
+    });
+
     route(method(POST), url_path("/users"), function() {
         $data = json_in();
-        json_out(["created" => $data]);
+        render(201, json_out(["created" => $data]));
     });
 
-    // PUT request to /users/123
     route(method(PUT), url_path_params("/users/:id"), function() {
         $id = $_GET[':id'];
         $data = json_in();
-        json_out(["updated" => $id, "data" => $data]);
+        render(200, json_out(["updated" => $id, "data" => $data]));
     });
 
-    // DELETE request to /users/123
     route(method(DELETE), url_path_params("/users/:id"), function() {
         $id = $_GET[':id'];
-        json_out(["deleted" => $id]);
+        render(204, "");
     });
 });
 ```
 
-## Grouped Routes
+## Route Files
+
+TeensyPHP projects separate routes into files:
 
 ```php
+// bootstrap.php (loads route files)
 router(function() {
-    // All routes prefixed with /api
-    routerGroup("/api", function() {
-        // GET /api/users
-        route(method(GET), url_path("/users"), function() {
-            json_out(["users" => []]);
-        });
-
-        // GET /api/posts
-        route(method(GET), url_path("/posts"), function() {
-            json_out(["posts" => []]);
-        });
-    });
-
-    // Nested groups
-    routerGroup("/admin", function() {
-        routerGroup("/api", function() {
-            // GET /admin/api/stats
-            route(method(GET), url_path("/stats"), function() {
-                json_out(["stats" => []]);
-            });
-        });
-    });
+    use_request_uri();
+    require_once app_root() . "/routes/web.php";
+    require_once app_root() . "/routes/api.php";
 });
 ```
 
 ## URL Parameters
 
 ```php
-router(function() {
-    // Single parameter
+// routes/api.php
+routerGroup("/api", function() {
+    // Single parameter: GET /api/users/123
     route(method(GET), url_path_params("/users/:id"), function() {
         $userId = $_GET[':id'];
-        json_out(["user_id" => $userId]);
+        render(200, json_out(["user_id" => $userId]));
     });
 
-    // Multiple parameters
+    // Multiple parameters: GET /api/orders/from/2024-01-01/to/2024-12-31
     route(method(GET), url_path_params("/orders/from/:from_date/to/:to_date"), function() {
         $from = $_GET[':from_date'];
         $to = $_GET[':to_date'];
-        json_out(["from" => $from, "to" => $to]);
+        render(200, json_out(["from" => $from, "to" => $to]));
     });
 
-    // Mixed with query strings
-    // GET /products/electronics?sort=price
+    // Mixed with query strings: GET /api/products/electronics?sort=price
     route(method(GET), url_path_params("/products/:category"), function() {
         $category = $_GET[':category'];
         $sort = $_GET['sort'] ?? 'name';
-        json_out(["category" => $category, "sort" => $sort]);
+        render(200, json_out(["category" => $category, "sort" => $sort]));
     });
 });
 ```
 
-## Controller Classes
+## Action Classes
 
 ```php
-// ListPosts.php
+// App/Actions/Post/ListPosts.php
+namespace App\Actions\Post;
+
+use App\Entity\Post;
+
 class ListPosts
 {
     public function __invoke()
     {
         $posts = Post::findAll();
-        render(200, json_out(["posts" => $posts]));
+        $output = array_map(fn($p) => $p->toArray(), $posts);
+        render(200, json_out(["posts" => $output]));
     }
 }
 
-// CreatePost.php
+// App/Actions/Post/CreatePost.php
+namespace App\Actions\Post;
+
+use App\Entity\Post;
+
 class CreatePost
 {
     public function __invoke()
@@ -114,10 +115,62 @@ class CreatePost
     }
 }
 
-// routes.php
-router(function() {
+// App/Actions/Post/ShowPost.php
+namespace App\Actions\Post;
+
+use App\Entity\Post;
+use TeensyPHP\Exceptions\TeensyPHPException;
+
+class ShowPost
+{
+    public function __invoke()
+    {
+        $post = Post::find($_GET[':id']);
+        if (!$post) {
+            TeensyPHPException::throwNotFound();
+        }
+        render(200, json_out(["post" => $post->toArray()]));
+    }
+}
+```
+
+```php
+// routes/api.php
+use App\Actions\Post\ListPosts;
+use App\Actions\Post\CreatePost;
+use App\Actions\Post\ShowPost;
+
+routerGroup("/api", function() {
     route(method(GET), url_path("/posts"), ListPosts::class);
     route(method(POST), url_path("/posts"), CreatePost::class);
+    route(method(GET), url_path_params("/posts/:id"), ShowPost::class);
+});
+```
+
+## Web Routes with Templates
+
+```php
+// App/Actions/Home/DisplayHome.php
+namespace App\Actions\Home;
+
+class DisplayHome
+{
+    public function __invoke()
+    {
+        $accept = request_header('Accept');
+        if ($accept === 'application/json') {
+            render(200, json_out(['message' => 'Hello World']));
+        } else {
+            render(200, html_out(template(app_root() . "/templates/pages/home.php", [])));
+        }
+    }
+}
+
+// routes/web.php
+use App\Actions\Home\DisplayHome;
+
+routerGroup("/", function() {
+    route(method(GET), url_path("/"), DisplayHome::class);
 });
 ```
 
@@ -168,6 +221,14 @@ url_path_params(string $pattern): bool
 ```
 
 Returns true if the URL matches the pattern. Captures named parameters (prefixed with `:`) into `$_GET`.
+
+### app_root()
+
+```php
+app_root(): string
+```
+
+Returns the application root directory (defined in `globals.php` as `APP_ROOT`).
 
 ## HTTP Methods
 
